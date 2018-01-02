@@ -15,55 +15,62 @@ import java.awt.Point;
  */
 public class Shapes {
     public final Point[][][] TetrisShapes = {
-        //i piece
-        {
-            {new Point(0,0), new Point(0,1), new Point(0,2), new Point(0,3)},
-            {new Point(0,0), new Point(1,0), new Point(2,0), new Point(3,0)},
-            {new Point(0,0), new Point(0,1), new Point(0,2), new Point(0,3)},
-            {new Point(0,0), new Point(1,0), new Point(2,0), new Point(3,0)},
+        
+	// I-Piece
+	{
+            { new Point(0, 1), new Point(1, 1), new Point(2, 1), new Point(3, 1) },
+            { new Point(1, 0), new Point(1, 1), new Point(1, 2), new Point(1, 3) },
+            { new Point(0, 1), new Point(1, 1), new Point(2, 1), new Point(3, 1) },
+            { new Point(1, 0), new Point(1, 1), new Point(1, 2), new Point(1, 3) }
+	},
+			
+	// J-Piece
+	{
+            { new Point(0, 1), new Point(1, 1), new Point(2, 1), new Point(2, 0) },
+            { new Point(1, 0), new Point(1, 1), new Point(1, 2), new Point(2, 2) },
+            { new Point(0, 1), new Point(1, 1), new Point(2, 1), new Point(0, 2) },
+            { new Point(1, 0), new Point(1, 1), new Point(1, 2), new Point(0, 0) }
+	},
+			
+	// L-Piece
+	{
+            { new Point(0, 1), new Point(1, 1), new Point(2, 1), new Point(2, 2) },
+            { new Point(1, 0), new Point(1, 1), new Point(1, 2), new Point(0, 2) },
+            { new Point(0, 1), new Point(1, 1), new Point(2, 1), new Point(0, 0) },
+            { new Point(1, 0), new Point(1, 1), new Point(1, 2), new Point(2, 0) }
+	},
+			
+	// O-Piece
+	{
+            { new Point(0, 0), new Point(0, 1), new Point(1, 0), new Point(1, 1) },
+            { new Point(0, 0), new Point(0, 1), new Point(1, 0), new Point(1, 1) },
+            { new Point(0, 0), new Point(0, 1), new Point(1, 0), new Point(1, 1) },
+            { new Point(0, 0), new Point(0, 1), new Point(1, 0), new Point(1, 1) }
         },
-        //j piece
+			
+        // S-Piece
         {
-            {new Point(0,-1), new Point(0,0), new Point(0,1), new Point(0,2)},
-            {new Point(0,1), new Point(0,0), new Point(1,0), new Point(2,0)},
-            {new Point(), new Point(), new Point(), new Point()},
-            {new Point(), new Point(), new Point(), new Point()},
+            { new Point(1, 0), new Point(2, 0), new Point(0, 1), new Point(1, 1) },
+            { new Point(0, 0), new Point(0, 1), new Point(1, 1), new Point(1, 2) },
+            { new Point(1, 0), new Point(2, 0), new Point(0, 1), new Point(1, 1) },
+            { new Point(0, 0), new Point(0, 1), new Point(1, 1), new Point(1, 2) }
         },
-        //L piece
+			
+        // T-Piece
         {
-            {new Point(), new Point(), new Point(), new Point()},
-            {new Point(), new Point(), new Point(), new Point()},
-            {new Point(), new Point(), new Point(), new Point()},
-            {new Point(), new Point(), new Point(), new Point()},
+            { new Point(1, 0), new Point(0, 1), new Point(1, 1), new Point(2, 1) },
+            { new Point(1, 0), new Point(0, 1), new Point(1, 1), new Point(1, 2) },
+            { new Point(0, 1), new Point(1, 1), new Point(2, 1), new Point(1, 2) },
+            { new Point(1, 0), new Point(1, 1), new Point(2, 1), new Point(1, 2) }
         },
-        //O piece
+			
+        // Z-Piece
         {
-            {new Point(), new Point(), new Point(), new Point()},
-            {new Point(), new Point(), new Point(), new Point()},
-            {new Point(), new Point(), new Point(), new Point()},
-            {new Point(), new Point(), new Point(), new Point()},
-        },
-        //S piece
-        {
-            {new Point(), new Point(), new Point(), new Point()},
-            {new Point(), new Point(), new Point(), new Point()},
-            {new Point(), new Point(), new Point(), new Point()},
-            {new Point(), new Point(), new Point(), new Point()},
-        },
-        //T piece
-        {
-            {new Point(), new Point(), new Point(), new Point()},
-            {new Point(), new Point(), new Point(), new Point()},
-            {new Point(), new Point(), new Point(), new Point()},
-            {new Point(), new Point(), new Point(), new Point()},
-        },
-        //Z piece
-        {
-            {new Point(), new Point(), new Point(), new Point()},
-            {new Point(), new Point(), new Point(), new Point()},
-            {new Point(), new Point(), new Point(), new Point()},
-            {new Point(), new Point(), new Point(), new Point()},
-        },
+            { new Point(0, 0), new Point(1, 0), new Point(1, 1), new Point(2, 1) },
+            { new Point(1, 0), new Point(0, 1), new Point(1, 1), new Point(0, 2) },
+            { new Point(0, 0), new Point(1, 0), new Point(1, 1), new Point(2, 1) },
+            { new Point(1, 0), new Point(0, 1), new Point(1, 1), new Point(0, 2) }
+        }
     };
     public Color[] ShapeColor = {cyan, blue, orange,yellow, green, pink,red};
 }
