@@ -47,36 +47,6 @@ public class Shapes {
             { new Point(0, 0), new Point(0, 1), new Point(1, 0), new Point(1, 1) },
             { new Point(0, 0), new Point(0, 1), new Point(1, 0), new Point(1, 1) }
         },
-        
-        //i piece
-        {
-            {new Point(0,0), new Point(0,1), new Point(0,2), new Point(0,3)},
-            {new Point(0,0), new Point(1,0), new Point(2,0), new Point(3,0)},
-            {new Point(0,0), new Point(0,1), new Point(0,2), new Point(0,3)},
-            {new Point(0,0), new Point(1,0), new Point(2,0), new Point(3,0)},
-        },
-        //j piece
-        {
-            {new Point(0,-1), new Point(0,0), new Point(0,1), new Point(0,2)},
-            {new Point(0,1), new Point(0,0), new Point(1,0), new Point(2,0)},
-            {new Point(0,0), new Point(1,0), new Point(0,-1), new Point(0,-2)},
-            {new Point(), new Point(), new Point(), new Point()},
-        },
-        //L piece
-        {
-            {new Point(), new Point(), new Point(), new Point()},
-            {new Point(), new Point(), new Point(), new Point()},
-            {new Point(), new Point(), new Point(), new Point()},
-            {new Point(), new Point(), new Point(), new Point()},
-        },
-        //O piece
-        {
-            {new Point(), new Point(), new Point(), new Point()},
-            {new Point(), new Point(), new Point(), new Point()},
-            {new Point(), new Point(), new Point(), new Point()},
-            {new Point(), new Point(), new Point(), new Point()},
->>>>>>> 8eb68d7eb9ac6114f8b3b51516f5bef94f536134
-        },
 			
         // S-Piece
         {
@@ -102,5 +72,7 @@ public class Shapes {
             { new Point(1, 0), new Point(0, 1), new Point(1, 1), new Point(0, 2) }
         }
     };
-    public Color[] ShapeColor = {cyan, blue, orange,yellow, green, pink,red};
-}
+    
+    private final Color[] ShapesColors = {
+		Color.cyan, Color.blue, Color.orange, Color.yellow, Color.green, Color.pink, Color.red
+    };
