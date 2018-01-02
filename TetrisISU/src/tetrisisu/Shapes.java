@@ -76,3 +76,4 @@ public class Shapes {
     private final Color[] ShapesColors = {
 		Color.cyan, Color.blue, Color.orange, Color.yellow, Color.green, Color.pink, Color.red
     };
+}
