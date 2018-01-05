@@ -24,7 +24,6 @@ public class TetrisISU extends JFrame{
     public int score = 0;
     
     public TetrisISU(){
-        System.out.println("WhatEver");
         setSize(325,500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         FlowLayout layout = new FlowLayout(0,0,0);
@@ -36,14 +35,14 @@ public class TetrisISU extends JFrame{
             for(int y=0;y<10;y++){
                 BoardArray[x][y] = new JPanel();
                 BoardArray[x][y].setBackground(Color.black);
-                BoardArray[x][y].setSize(25,25);
+                BoardArray[x][y].setPreferredSize(new Dimension (25,25));
                 BoardArray[x][y].setBorder(BorderFactory.createLineBorder(Color.white));
                 BoardArea.add(BoardArray[x][y]);
             }
         }
         
         add(BoardArea);
-        BoardArea.setSize(250,500);
+        BoardArea.setPreferredSize(new Dimension(250,500));
         add(SideBoard);
         SideBoard.setBackground(Color.gray);
         SideBoard.setSize(75,500);
