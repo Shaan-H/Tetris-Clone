@@ -48,7 +48,7 @@ public class TetrisISU extends JFrame{
     }
     
     public TetrisISU(){
-        setSize(new Dimension(441,538));
+        setSize(new Dimension(766,1039));
         //sets the size of the window
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //sets the operation of when the user hits the x button
