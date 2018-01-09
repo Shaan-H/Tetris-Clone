@@ -68,11 +68,11 @@ public class TetrisISU extends JFrame{
                 //creates a new jpanel
                 BoardArray[y][x].setBackground(Color.black);
                 //sets the background of the jpanels to black
-                BoardArray[y][x].setPreferredSize(new Dimension (25,25));
+                BoardArray[y][x].setPreferredSize(new Dimension (50,50));
                 //sets a preffered size for each of the panels
-                BoardArray[y][x].setMaximumSize(new Dimension (25,25));
+                BoardArray[y][x].setMaximumSize(new Dimension (50,50));
                 //sets a maximum size
-                BoardArray[y][x].setMinimumSize(new Dimension (25,25));
+                BoardArray[y][x].setMinimumSize(new Dimension (50,50));
                 //sets a minimum size
                 BoardArray[y][x].setBorder(BorderFactory.createLineBorder(Color.gray));
                 //makes a grey border around the panel
@@ -84,11 +84,11 @@ public class TetrisISU extends JFrame{
         add(BoardArea);
         //
         
-        BoardArea.setPreferredSize(new Dimension(250,500));
+        BoardArea.setPreferredSize(new Dimension(500,1000));
         System.out.println(BoardArea.getPreferredSize());
         add(SideBoard);
         SideBoard.setBackground(Color.gray);
-        SideBoard.setPreferredSize(new Dimension (175,500));
+        SideBoard.setPreferredSize(new Dimension (250,1000));
         SideBoard.add(Test);
         Test.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -111,13 +111,13 @@ public class TetrisISU extends JFrame{
     }
     
     private void newPiece(){
-        piecePosition = new Point(5,1);
+        piecePosition = new Point(5,0);
         rotation = 0;
         Random rand = new Random();
         int b = rand.nextInt(6) + 0;
         currentpiece = nextpiece;
         nextpiece = b;
-        
+        testmove();
     }
     
     public void moveLR(int x){
@@ -134,9 +134,24 @@ public class TetrisISU extends JFrame{
             PinToBoard();
         }
         repaint();
+        testmove();
+    }
+    
+    public void testmove(){
+        BoardArray[piecePosition.x][piecePosition.y].setBackground(Color.yellow);
+        System.out.println(piecePosition.y);
     }
     
     public boolean collision(int x, int y, int rotationPos){
+        for (Point p : tetrisisu.Shapes.TetrisShapes[currentpiece][rotation]){
+			if(BoardArray[p.x + x][p.y + y].getBackground() != Color.BLACK || p.x>10 || p.y>10){
+                            
+                            return true;
+                        }
+                        
+                System.out.println(p.y+y);        
+		}
+        
         return false;
     }
     

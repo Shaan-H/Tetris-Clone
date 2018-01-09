@@ -13,7 +13,7 @@ import java.awt.Point;
  * @author Admin
  */
 public class Shapes {
-    public final Point[][][] TetrisShapes = {
+    public static final Point[][][] TetrisShapes = {
       
 	// I-Piece
 	{
