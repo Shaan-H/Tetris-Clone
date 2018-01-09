@@ -24,12 +24,31 @@ public class TetrisISU extends JFrame{
     public JButton Test = new JButton("TEEST");
     public static int level = 0;
     public int score = 0;
-    public Point pieceOrigin;
+    public int linesCompleted = 0;
+    public Point piecePosition;
     public int rotation;
     public static int currentpiece, nextpiece;
     
+    public static void main(String[] args) {
+        TetrisISU frame = new TetrisISU();
+        //runs the layout class
+        new Thread(){
+            @Override public void run(){
+                while(true){
+                    try{
+                        Thread.sleep(1000-50*(level-1)); //This value can be modified to make the game easier or harder.
+                           frame.moveDown();
+                    } catch(InterruptedException e){}
+                }
+            }
+	}.start();
+        Random rand = new Random();
+        int a = rand.nextInt(6) + 0;
+        nextpiece = a;
+    }
+    
     public TetrisISU(){
-        setSize(new Dimension(450,550));
+        setSize(new Dimension(441,538));
         //sets the size of the window
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //sets the operation of when the user hits the x button
@@ -86,13 +105,13 @@ public class TetrisISU extends JFrame{
     }
     
     private void start(){
-        newpiece();
+        newPiece();
         
         
     }
     
-    private void newpiece(){
-        pieceOrigin = new Point(5,1);
+    private void newPiece(){
+        piecePosition = new Point(5,1);
         rotation = 0;
         Random rand = new Random();
         int b = rand.nextInt(6) + 0;
@@ -101,30 +120,40 @@ public class TetrisISU extends JFrame{
         
     }
     
-    public void move(int i){
-        
+    public void moveLR(int x){
+        if(!collision(piecePosition.x + x,piecePosition.y,rotation)){
+            piecePosition.x += x;
+        }
+        repaint();
     }
     
-    public static void main(String[] args) {
-        TetrisISU frame = new TetrisISU();
-        //runs the layout class
-        new Thread(){
-            @Override public void run(){
-                while(true){
-                    try{
-                        Thread.sleep(1000-50*(level-1)); //This value can be modified to make the game easier or harder.
-                           // frame.dropDown();
-                    } catch(InterruptedException e){}
-                }
-            }
-	}.start();
-        Random rand = new Random();
-        int a = rand.nextInt(6) + 0;
-        nextpiece = a;
+    public void moveDown(){
+        if(!collision(piecePosition.x,piecePosition.y+1, rotation)){
+            piecePosition.y+=1;
+        } else{
+            PinToBoard();
+        }
+        repaint();
     }
+    
+    public boolean collision(int x, int y, int rotationPos){
+        return false;
+    }
+    
+    public void PinToBoard(){
+        
+        newPiece();
+    }
+    
     private void TestButtonActionPerformed(java.awt.event.ActionEvent evt) {                                           
         System.out.println(this.getHeight());
         System.out.println(this.getWidth());
+        System.out.println(SideBoard.getHeight());
+        System.out.println(SideBoard.getWidth());
+        System.out.println(BoardArea.getHeight());
+        System.out.println(BoardArea.getWidth());
+        System.out.println(BoardArray[1][2].getHeight());
+        System.out.println(BoardArray[1][2].getWidth());
     } 
     
         
