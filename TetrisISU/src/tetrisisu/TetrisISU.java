@@ -6,6 +6,7 @@
 package tetrisisu;
 
 import java.awt.*;
+import java.util.Random;
 import javax.swing.*;
 
 /**
@@ -15,13 +16,17 @@ import javax.swing.*;
 public class TetrisISU extends JFrame{
     public JPanel BoardArea = new JPanel();
     public JPanel SideBoard = new JPanel();
-    public JPanel[][] BoardArray = new JPanel[20][10];
+    public JPanel[][] BoardArray = new JPanel[10][20];
     public JPanel[][] PreviewArea = new JPanel[5][5];
     public JLabel StatTitle = new JLabel("Stats");
     public JLabel ScoreDisplay = new JLabel("Score = 0");
     public JLabel LevelDisplay = new JLabel("0");
-    public int level = 0;
+    public JButton Test = new JButton("TEEST");
+    public static int level = 0;
     public int score = 0;
+    public Point pieceOrigin;
+    public int rotation;
+    public static int currentpiece, nextpiece;
     
     public TetrisISU(){
         setSize(new Dimension(450,550));
@@ -37,41 +42,91 @@ public class TetrisISU extends JFrame{
         //makes a new gridlayout with 20 rows and 10 columns
         BoardArea.setLayout(layout1);
         //sets the layout to the tiles
+        
         for(int x=0;x<20;x++){
             for(int y=0;y<10;y++){
-                BoardArray[x][y] = new JPanel();
+                BoardArray[y][x] = new JPanel();
                 //creates a new jpanel
-                BoardArray[x][y].setBackground(Color.black);
+                BoardArray[y][x].setBackground(Color.black);
                 //sets the background of the jpanels to black
-                BoardArray[x][y].setPreferredSize(new Dimension (25,25));
+                BoardArray[y][x].setPreferredSize(new Dimension (25,25));
                 //sets a preffered size for each of the panels
-                BoardArray[x][y].setMaximumSize(new Dimension (25,25));
+                BoardArray[y][x].setMaximumSize(new Dimension (25,25));
                 //sets a maximum size
-                BoardArray[x][y].setMinimumSize(new Dimension (25,25));
+                BoardArray[y][x].setMinimumSize(new Dimension (25,25));
                 //sets a minimum size
-                BoardArray[x][y].setBorder(BorderFactory.createLineBorder(Color.gray));
+                BoardArray[y][x].setBorder(BorderFactory.createLineBorder(Color.gray));
                 //makes a grey border around the panel
-                BoardArea.add(BoardArray[x][y]);
+                BoardArea.add(BoardArray[y][x]);
                 //adds the jpanel to the board area
             }
         }
         //iterates through all 200 jpanels setting them all to look the same and adding them to the board area
-        
         add(BoardArea);
         //
+        
         BoardArea.setPreferredSize(new Dimension(250,500));
+        System.out.println(BoardArea.getPreferredSize());
         add(SideBoard);
         SideBoard.setBackground(Color.gray);
         SideBoard.setPreferredSize(new Dimension (175,500));
-        System.out.println(BoardArray[5][5].getSize());
+        SideBoard.add(Test);
+        Test.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TestButtonActionPerformed(evt);
+            }
+        });
+        System.out.println(this.getPreferredSize());
         setVisible(true);
+        //setResizable(false);
+        setLocationRelativeTo(null);
+        //centers the window
+        start();
+        //initilizes the game by calling the start method
+    }
+    
+    private void start(){
+        newpiece();
+        
+        
+    }
+    
+    private void newpiece(){
+        pieceOrigin = new Point(5,1);
+        rotation = 0;
+        Random rand = new Random();
+        int b = rand.nextInt(6) + 0;
+        currentpiece = nextpiece;
+        nextpiece = b;
+        
+    }
+    
+    public void move(int i){
+        
     }
     
     public static void main(String[] args) {
         TetrisISU frame = new TetrisISU();
-        System.out.println("hello");
         //runs the layout class
+        new Thread(){
+            @Override public void run(){
+                while(true){
+                    try{
+                        Thread.sleep(1000-50*(level-1)); //This value can be modified to make the game easier or harder.
+                           // frame.dropDown();
+                    } catch(InterruptedException e){}
+                }
+            }
+	}.start();
+        Random rand = new Random();
+        int a = rand.nextInt(6) + 0;
+        nextpiece = a;
     }
+    private void TestButtonActionPerformed(java.awt.event.ActionEvent evt) {                                           
+        System.out.println(this.getHeight());
+        System.out.println(this.getWidth());
+    } 
+    
         
     
 }
