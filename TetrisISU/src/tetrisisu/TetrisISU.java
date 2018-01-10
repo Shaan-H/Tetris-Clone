@@ -130,9 +130,8 @@ public class TetrisISU extends JFrame{
         int b = rand.nextInt(7);
         currentPiece = nextpiece;
         nextpiece = b;
-        System.out.println("Random Number" + b);
         System.out.println("Current Piece: " + currentPiece + " Next Peice: " + nextpiece);
-        repaint();
+        drawPiece();
     }
     
     public void moveLR(int x){
@@ -143,13 +142,23 @@ public class TetrisISU extends JFrame{
     
     public void moveDown(){
         System.out.println(piecePosition.y+1);
+        for (Point p : tetrisisu.Shapes.TetrisShapes[currentPiece][rotation]){
+            BoardArray[p.x + piecePosition.x][p.y +piecePosition.y].setBackground(Color.black);
+        }
         if(!collision(piecePosition.x,piecePosition.y+1, rotation)){
             piecePosition.y++;
-            repaint();
+            drawPiece();
         } else{
             PinToBoard();
         }
         
+    }
+    
+    public void drawPiece(){
+        for (Point p : tetrisisu.Shapes.TetrisShapes[currentPiece][rotation]){
+            BoardArray[p.x + piecePosition.x][p.y +piecePosition.y].setBackground(Shapes.ShapesColors[currentPiece]);
+            BoardArray[p.x + piecePosition.x][p.y +piecePosition.y].setBorder(createRaisedBevelBorder());
+        }
     }
     
     public boolean collision(int x, int y, int rotationPos){
@@ -172,23 +181,6 @@ public class TetrisISU extends JFrame{
         
         newPiece();
     }
-    
-    private void drawPiece(Graphics g){		
-	g.setColor(Shapes.ShapesColors[currentPiece]);
-	for (Point p : Shapes.TetrisShapes[currentPiece][rotation]) g.fillRect((p.x + piecePosition.x) * 26, (p.y + piecePosition.y) * 26, 25, 25);
-    }
-
-	//Paints the well and displays the score in white text while drawing the current falling pieces. 
-    public void paintComponent(Graphics g){
-        g.fillRect(0, 0, 26*12, 26*23);
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 19; j++) {
-                g.setColor(BoardArray[i][j].getBackground());
-                g.fillRect(26*i, 26*j, 25, 25);
-		}
-            }
-            drawPiece(g);
-	}
     
     private void TestButtonActionPerformed(java.awt.event.ActionEvent evt) {                                           
         System.out.println(this.getHeight());
