@@ -8,6 +8,7 @@ package tetrisisu;
 import java.awt.*;
 import java.util.Random;
 import javax.swing.*;
+import static javax.swing.BorderFactory.createRaisedBevelBorder;
 
 /**
  *
@@ -27,7 +28,7 @@ public class TetrisISU extends JFrame{
     public int linesCompleted = 0;
     public Point piecePosition;
     public int rotation;
-    public static int currentpiece, nextpiece;
+    public static int currentPiece, nextpiece;
     
     public static void main(String[] args) {
         TetrisISU frame = new TetrisISU();
@@ -36,15 +37,23 @@ public class TetrisISU extends JFrame{
             @Override public void run(){
                 while(true){
                     try{
-                        Thread.sleep(1000-50*(level-1)); //This value can be modified to make the game easier or harder.
+                        Thread.sleep(1000-50*(level-1)); 
+                        //The number of milliseconds that it takes for one game cycle
+                        //goes down as the level increases
                            frame.moveDown();
+                           //calls a function from the instace of the game that was created
                     } catch(InterruptedException e){}
+                    //prevents an interruptedException error from showing up
                 }
             }
 	}.start();
+        //runs the program
         Random rand = new Random();
-        int a = rand.nextInt(6) + 0;
+        int a = rand.nextInt(7);
+        //creates a random number from 0 to 6
         nextpiece = a;
+        System.out.println(nextpiece);
+        //sets the next piece to be at a random index of the shapes point array.
     }
     
     public TetrisISU(){
@@ -82,12 +91,15 @@ public class TetrisISU extends JFrame{
         }
         //iterates through all 200 jpanels setting them all to look the same and adding them to the board area
         add(BoardArea);
-        //
+        //adds the boardarea to the window
         
         BoardArea.setPreferredSize(new Dimension(500,1000));
+        //sets the preffered size of the board area to 500 by 1000
         System.out.println(BoardArea.getPreferredSize());
         add(SideBoard);
+        //adds the sideboard to the window
         SideBoard.setBackground(Color.gray);
+        //sets the background of the sideboard to gray
         SideBoard.setPreferredSize(new Dimension (250,1000));
         SideBoard.add(Test);
         Test.addActionListener(new java.awt.event.ActionListener() {
@@ -114,44 +126,51 @@ public class TetrisISU extends JFrame{
         piecePosition = new Point(5,0);
         rotation = 0;
         Random rand = new Random();
-        int b = rand.nextInt(6) + 0;
-        currentpiece = nextpiece;
+        int b = rand.nextInt(7);
+        currentPiece = 5;
         nextpiece = b;
-        testmove();
+        System.out.println("Random Number" + b);
+        System.out.println("Current Piece: " + currentPiece + " Next Peice: " + nextpiece);
+        redraw();
     }
     
     public void moveLR(int x){
         if(!collision(piecePosition.x + x,piecePosition.y,rotation)){
             piecePosition.x += x;
         }
-        repaint();
     }
     
     public void moveDown(){
+        System.out.println(piecePosition.y+1);
         if(!collision(piecePosition.x,piecePosition.y+1, rotation)){
-            piecePosition.y+=1;
+            piecePosition.y++;
+            redraw();
         } else{
             PinToBoard();
         }
-        repaint();
-        testmove();
+        
     }
     
-    public void testmove(){
-        BoardArray[piecePosition.x][piecePosition.y].setBackground(Color.yellow);
-        System.out.println(piecePosition.y);
+    public void redraw(){
+        for (Point p : tetrisisu.Shapes.TetrisShapes[currentPiece][rotation]){
+            BoardArray[p.x + piecePosition.x][p.y +piecePosition.y].setBackground(Shapes.ShapesColors[currentPiece]);
+            BoardArray[p.x + piecePosition.x][p.y +piecePosition.y].setBorder(createRaisedBevelBorder());
+        }
     }
     
     public boolean collision(int x, int y, int rotationPos){
-        for (Point p : tetrisisu.Shapes.TetrisShapes[currentpiece][rotation]){
-			if(BoardArray[p.x + x][p.y + y].getBackground() != Color.BLACK || p.x>10 || p.y>10){
-                            
-                            return true;
-                        }
-                        
-                System.out.println(p.y+y);        
-		}
-        
+        for (Point p : tetrisisu.Shapes.TetrisShapes[currentPiece][rotation]){
+            if((p.x+x)>9 || (p.y+y)>19){
+                System.out.println("True1");
+                System.out.println(p.y+y);
+                return true; 
+            }
+            else if(BoardArray[p.x + x][p.y + y].getBackground() != Color.BLACK) {    
+                System.out.println("True2");
+                return true;
+            }
+        }
+        System.out.println("False");
         return false;
     }
     
