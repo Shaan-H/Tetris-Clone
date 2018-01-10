@@ -182,6 +182,52 @@ public class TetrisISU extends JFrame{
         newPiece();
     }
     
+    private void drawPiece(Graphics g){		
+	g.setColor(Shapes.ShapesColors[currentPiece]);
+	for (Point p : Shapes.TetrisShapes[currentPiece][rotation]) g.fillRect((p.x + piecePosition.x) * 26, (p.y + piecePosition.y) * 26, 25, 25);
+    }
+
+	//Paints the well and displays the score in white text while drawing the current falling pieces. 
+    public void paintComponent(Graphics g){
+        g.fillRect(0, 0, 26*12, 26*23);
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 19; j++) {
+                g.setColor(BoardArray[i][j].getBackground());
+                g.fillRect(26*i, 26*j, 25, 25);
+		}
+            }
+            drawPiece(g);
+	}
+    
+    public void clearsingle(int x){
+        
+        for(int a=-1; a<=0; a--){
+            for(int y=0; y<=9; y++){
+                BoardArray[a+1][y] = BoardArray[a][y];
+            }
+        }
+    }
+    
+    public void clearmultiple(){
+        boolean gap;
+		int numClears = 0;
+		
+		for (int x = 21; x > 0; x--) {
+			gap = false;
+			for (int y = 1; y < 11; y++) {
+				if (BoardArray[x][y].getBackground() != Color.black) {
+					gap = true;
+					break;
+				}
+			}
+			if (!gap) {
+				clearsingle(x);
+				x += 1;
+				numClears += 1;
+			}
+		}
+    }
+    
     private void TestButtonActionPerformed(java.awt.event.ActionEvent evt) {                                           
         System.out.println(this.getHeight());
         System.out.println(this.getWidth());
