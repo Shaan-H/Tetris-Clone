@@ -22,7 +22,6 @@ public class TetrisISU extends JFrame{
     public JLabel StatTitle = new JLabel("Stats");
     public JLabel ScoreDisplay = new JLabel("Score = 0");
     public JLabel LevelDisplay = new JLabel("0");
-    public JButton Test = new JButton("TEEST");
     public static int level = 0;
     public int score = 0;
     public int linesCompleted = 0;
@@ -52,6 +51,7 @@ public class TetrisISU extends JFrame{
     }
     
     public TetrisISU(){
+    //sets the look and adds the elements to the window
         setSize(new Dimension(766,1039));
         //sets the size of the window
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -96,13 +96,6 @@ public class TetrisISU extends JFrame{
         SideBoard.setBackground(Color.gray);
         //sets the background of the sideboard to gray
         SideBoard.setPreferredSize(new Dimension (250,1000));
-        SideBoard.add(Test);
-        Test.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                TestButtonActionPerformed(evt);
-            }
-        });
-        System.out.println(this.getPreferredSize());
         setVisible(true);
         //setResizable(false);
         setLocationRelativeTo(null);
@@ -124,7 +117,7 @@ public class TetrisISU extends JFrame{
     }
     
     private void newPiece(){
-        piecePosition = new Point(5,0);
+        piecePosition = new Point(4,0);
         rotation = 0;
         Random rand = new Random();
         int b = rand.nextInt(7);
@@ -135,8 +128,13 @@ public class TetrisISU extends JFrame{
     }
     
     public void moveLR(int x){
+        for (Point p : tetrisisu.Shapes.TetrisShapes[currentPiece][rotation]){
+            BoardArray[p.x + piecePosition.x][p.y +piecePosition.y].setBackground(Color.black);
+            BoardArray[p.x + piecePosition.x][p.y +piecePosition.y].setBorder(BorderFactory.createLineBorder(Color.gray));
+        }
         if(!collision(piecePosition.x + x,piecePosition.y,rotation)){
             piecePosition.x += x;
+            drawPiece();
         }
     }
     
@@ -144,6 +142,7 @@ public class TetrisISU extends JFrame{
         System.out.println(piecePosition.y+1);
         for (Point p : tetrisisu.Shapes.TetrisShapes[currentPiece][rotation]){
             BoardArray[p.x + piecePosition.x][p.y +piecePosition.y].setBackground(Color.black);
+            BoardArray[p.x + piecePosition.x][p.y +piecePosition.y].setBorder(BorderFactory.createLineBorder(Color.gray));
         }
         if(!collision(piecePosition.x,piecePosition.y+1, rotation)){
             piecePosition.y++;
@@ -152,6 +151,15 @@ public class TetrisISU extends JFrame{
             PinToBoard();
         }
         
+    }
+    
+    public void rotate(){
+        if(rotation<4){
+            rotation = 0;
+        }
+        else{
+            rotation++;
+        }
     }
     
     public void drawPiece(){
@@ -178,26 +186,13 @@ public class TetrisISU extends JFrame{
     }
     
     public void PinToBoard(){
-        
+        for (Point p : tetrisisu.Shapes.TetrisShapes[currentPiece][rotation]){
+            BoardArray[p.x + piecePosition.x][p.y +piecePosition.y].setBackground(Shapes.ShapesColors[currentPiece]);
+            BoardArray[p.x + piecePosition.x][p.y +piecePosition.y].setBorder(createRaisedBevelBorder());
+        }
         newPiece();
     }
     
-    private void drawPiece(Graphics g){		
-	g.setColor(Shapes.ShapesColors[currentPiece]);
-	for (Point p : Shapes.TetrisShapes[currentPiece][rotation]) g.fillRect((p.x + piecePosition.x) * 26, (p.y + piecePosition.y) * 26, 25, 25);
-    }
-
-	//Paints the well and displays the score in white text while drawing the current falling pieces. 
-    public void paintComponent(Graphics g){
-        g.fillRect(0, 0, 26*12, 26*23);
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 19; j++) {
-                g.setColor(BoardArray[i][j].getBackground());
-                g.fillRect(26*i, 26*j, 25, 25);
-		}
-            }
-            drawPiece(g);
-	}
     
     public void clearsingle(int x){
         
@@ -227,18 +222,4 @@ public class TetrisISU extends JFrame{
 			}
 		}
     }
-    
-    private void TestButtonActionPerformed(java.awt.event.ActionEvent evt) {                                           
-        System.out.println(this.getHeight());
-        System.out.println(this.getWidth());
-        System.out.println(SideBoard.getHeight());
-        System.out.println(SideBoard.getWidth());
-        System.out.println(BoardArea.getHeight());
-        System.out.println(BoardArea.getWidth());
-        System.out.println(BoardArray[1][2].getHeight());
-        System.out.println(BoardArray[1][2].getWidth());
-    } 
-    
-        
-    
 }
