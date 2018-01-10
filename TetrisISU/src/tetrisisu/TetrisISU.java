@@ -48,12 +48,7 @@ public class TetrisISU extends JFrame{
             }
 	}.start();
         //runs the program
-        Random rand = new Random();
-        int a = rand.nextInt(7);
-        //creates a random number from 0 to 6
-        nextpiece = a;
-        System.out.println(nextpiece);
-        //sets the next piece to be at a random index of the shapes point array.
+        
     }
     
     public TetrisISU(){
@@ -117,6 +112,12 @@ public class TetrisISU extends JFrame{
     }
     
     private void start(){
+        Random rand = new Random();
+        int a = rand.nextInt(7);
+        //creates a random number from 0 to 6
+        nextpiece = a;
+        System.out.println(nextpiece);
+        //sets the next piece to be at a random index of the shapes point array.
         newPiece();
         
         
@@ -127,11 +128,11 @@ public class TetrisISU extends JFrame{
         rotation = 0;
         Random rand = new Random();
         int b = rand.nextInt(7);
-        currentPiece = 5;
+        currentPiece = nextpiece;
         nextpiece = b;
         System.out.println("Random Number" + b);
         System.out.println("Current Piece: " + currentPiece + " Next Peice: " + nextpiece);
-        redraw();
+        repaint();
     }
     
     public void moveLR(int x){
@@ -144,18 +145,11 @@ public class TetrisISU extends JFrame{
         System.out.println(piecePosition.y+1);
         if(!collision(piecePosition.x,piecePosition.y+1, rotation)){
             piecePosition.y++;
-            redraw();
+            repaint();
         } else{
             PinToBoard();
         }
         
-    }
-    
-    public void redraw(){
-        for (Point p : tetrisisu.Shapes.TetrisShapes[currentPiece][rotation]){
-            BoardArray[p.x + piecePosition.x][p.y +piecePosition.y].setBackground(Shapes.ShapesColors[currentPiece]);
-            BoardArray[p.x + piecePosition.x][p.y +piecePosition.y].setBorder(createRaisedBevelBorder());
-        }
     }
     
     public boolean collision(int x, int y, int rotationPos){
@@ -178,6 +172,23 @@ public class TetrisISU extends JFrame{
         
         newPiece();
     }
+    
+    private void drawPiece(Graphics g){		
+	g.setColor(Shapes.ShapesColors[currentPiece]);
+	for (Point p : Shapes.TetrisShapes[currentPiece][rotation]) g.fillRect((p.x + piecePosition.x) * 26, (p.y + piecePosition.y) * 26, 25, 25);
+    }
+
+	//Paints the well and displays the score in white text while drawing the current falling pieces. 
+    public void paintComponent(Graphics g){
+        g.fillRect(0, 0, 26*12, 26*23);
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 19; j++) {
+                g.setColor(BoardArray[i][j].getBackground());
+                g.fillRect(26*i, 26*j, 25, 25);
+		}
+            }
+            drawPiece(g);
+	}
     
     private void TestButtonActionPerformed(java.awt.event.ActionEvent evt) {                                           
         System.out.println(this.getHeight());
