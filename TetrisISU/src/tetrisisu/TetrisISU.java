@@ -190,6 +190,35 @@ public class TetrisISU extends JFrame{
             drawPiece(g);
 	}
     
+    public void clearsingle(int x){
+        
+        for(int a=-1; a<=0; a--){
+            for(int y=0; y<=9; y++){
+                BoardArray[a+1][y] = BoardArray[a][y];
+            }
+        }
+    }
+    
+    public void clearmultiple(){
+        boolean gap;
+		int numClears = 0;
+		
+		for (int x = 21; x > 0; x--) {
+			gap = false;
+			for (int y = 1; y < 11; y++) {
+				if (BoardArray[x][y].getBackground() != Color.black) {
+					gap = true;
+					break;
+				}
+			}
+			if (!gap) {
+				clearsingle(x);
+				x += 1;
+				numClears += 1;
+			}
+		}
+    }
+    
     private void TestButtonActionPerformed(java.awt.event.ActionEvent evt) {                                           
         System.out.println(this.getHeight());
         System.out.println(this.getWidth());
