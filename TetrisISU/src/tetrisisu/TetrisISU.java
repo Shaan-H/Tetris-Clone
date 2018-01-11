@@ -199,6 +199,7 @@ public class TetrisISU extends JFrame{
             BoardArray[p.x + piecePosition.x][p.y +piecePosition.y].setBackground(Shapes.ShapesColors[currentPiece]);
             BoardArray[p.x + piecePosition.x][p.y +piecePosition.y].setBorder(createRaisedBevelBorder());
         }
+        clearmultiple();
         newPiece();
     }
     
@@ -215,17 +216,16 @@ public class TetrisISU extends JFrame{
         boolean gap;
 		int numClears = 0;
 		
-		for (int x = 21; x > 0; x--) {
+		for (int y = 0; y < 20; y++) {
 			gap = false;
-			for (int y = 1; y < 11; y++) {
-				if (BoardArray[x][y].getBackground() != Color.black) {
+			for (int x = 0; x < 10; x++) {
+				if (BoardArray[x][y].getBackground().equals(Color.black)) {
 					gap = true;
-					break;
+                                        break;
 				}
 			}
 			if (!gap) {
-				clearsingle(x);
-				x += 1;
+				clearsingle(y);
 				numClears += 1;
 			}
 		}
