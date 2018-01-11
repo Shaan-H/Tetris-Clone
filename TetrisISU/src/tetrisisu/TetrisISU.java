@@ -22,7 +22,7 @@ public class TetrisISU extends JFrame{
     public JLabel StatTitle = new JLabel("Stats");
     public JLabel ScoreDisplay = new JLabel("Score = 0");
     public JLabel LevelDisplay = new JLabel("0");
-    public static int level = 10;
+    public static int level = 75;
     public int score = 0;
     public int linesCompleted = 0;
     public Point piecePosition;
@@ -37,7 +37,7 @@ public class TetrisISU extends JFrame{
             @Override public void run(){
                 while(gameRunning){
                     try{
-                        Thread.sleep(1000-50*(level-1)); 
+                        Thread.sleep(1000-10*((level-1))); 
                         //The number of milliseconds that it takes for one game cycle
                         //goes down as the level increases
                            frame.moveDown();
@@ -202,11 +202,11 @@ public class TetrisISU extends JFrame{
     }
     
     
-    public void clearsingle(int x){
+    public void clearsingle(int line){
         
         for(int a=-1; a<=0; a--){
-            for(int y=0; y<=9; y++){
-                BoardArray[a+1][y] = BoardArray[a][y];
+            for(int x=0; x<=9; x++){
+                BoardArray[x][a].setBackground(BoardArray[x][a].getBackground());
             }
         }
     }
@@ -229,5 +229,9 @@ public class TetrisISU extends JFrame{
 				numClears += 1;
 			}
 		}
+    }
+    
+    public void endGame(){
+        JOptionPane.showMessageDialog(null, "GAME OVER!  Final Score: " + score);
     }
 }
