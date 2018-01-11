@@ -205,11 +205,11 @@ public class TetrisISU extends JFrame{
     
     
     public void clearsingle(int line){
-        for(int a=-1; a<=0; a--){
+        for(int y = line; y>0; y--)    
             for(int x=0; x<=9; x++){
-                BoardArray[x][a].setBackground(BoardArray[x][a].getBackground());
+                BoardArray[x][line+1].setBackground(BoardArray[x][line].getBackground());
             }
-        }
+            line--;
     }
     
     public void clearmultiple(){
@@ -229,6 +229,7 @@ public class TetrisISU extends JFrame{
 				numClears += 1;
 			}
 		}
+                score+= 200*Math.pow(numClears,2);
     }
     
     public void endGame(){
