@@ -15,7 +15,6 @@ import static javax.swing.BorderFactory.createRaisedBevelBorder;
  * @author Admin
  */
 public class TetrisISU extends JFrame{
-    TetrisISU frame = new TetrisISU();
     public JPanel BoardArea = new JPanel();
     public JPanel SideBoard = new JPanel();
     public JPanel[][] BoardArray = new JPanel[10][20];
