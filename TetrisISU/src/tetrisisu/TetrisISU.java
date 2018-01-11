@@ -15,6 +15,7 @@ import static javax.swing.BorderFactory.createRaisedBevelBorder;
  * @author Admin
  */
 public class TetrisISU extends JFrame{
+    TetrisISU frame = new TetrisISU();
     public JPanel BoardArea = new JPanel();
     public JPanel SideBoard = new JPanel();
     public JPanel[][] BoardArray = new JPanel[10][20];
@@ -203,7 +204,6 @@ public class TetrisISU extends JFrame{
     
     
     public void clearsingle(int line){
-        
         for(int a=-1; a<=0; a--){
             for(int x=0; x<=9; x++){
                 BoardArray[x][a].setBackground(BoardArray[x][a].getBackground());
