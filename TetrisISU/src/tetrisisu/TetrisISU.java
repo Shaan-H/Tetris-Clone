@@ -22,19 +22,20 @@ public class TetrisISU extends JFrame{
     public JLabel StatTitle = new JLabel("Stats");
     public JLabel ScoreDisplay = new JLabel("Score = 0");
     public JLabel LevelDisplay = new JLabel("0");
-    public static int level = 0;
+    public static int level = 10;
     public int score = 0;
     public int linesCompleted = 0;
     public Point piecePosition;
     public int rotation;
     public static int currentPiece, nextpiece;
+    public static boolean gameRunning = true;
     
     public static void main(String[] args) {
         TetrisISU frame = new TetrisISU();
         //runs the layout class
         new Thread(){
             @Override public void run(){
-                while(true){
+                while(gameRunning){
                     try{
                         Thread.sleep(1000-50*(level-1)); 
                         //The number of milliseconds that it takes for one game cycle
@@ -119,12 +120,19 @@ public class TetrisISU extends JFrame{
     private void newPiece(){
         piecePosition = new Point(4,0);
         rotation = 0;
-        Random rand = new Random();
-        int b = rand.nextInt(7);
-        currentPiece = nextpiece;
-        nextpiece = b;
-        System.out.println("Current Piece: " + currentPiece + " Next Peice: " + nextpiece);
-        drawPiece();
+        if(collision(piecePosition.x,piecePosition.y,rotation)){
+            gameRunning=false;
+            endGame();
+            
+        } else{
+            Random rand = new Random();
+            int b = rand.nextInt(7);
+            currentPiece = nextpiece;
+            nextpiece = b;
+            System.out.println("Current Piece: " + currentPiece + " Next Peice: " + nextpiece);
+            drawPiece();
+        }
+        
     }
     
     public void moveLR(int x){
