@@ -9,6 +9,9 @@ import java.awt.*;
 import java.util.Random;
 import javax.swing.*;
 import static javax.swing.BorderFactory.createRaisedBevelBorder;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyAdapter;
+import static java.awt.event.KeyEvent.*;
 
 /**
  *
@@ -133,6 +136,23 @@ public class TetrisISU extends JFrame{
             drawPiece();
         }
         
+    }
+    
+    public void keyPressed(KeyEvent evt) {
+        System.out.println("LOLJK");
+        if (evt.getKeyChar() == VK_UP ) {
+            rotate();
+            System.out.println("LOLJK");
+        }
+        if (evt.getKeyCode() == VK_DOWN) {
+            moveDown();
+        }
+        if (evt.getKeyCode() == VK_LEFT) {
+            moveLR(-1);
+        }
+        if (evt.getKeyCode() == VK_RIGHT) {
+            moveLR(0);
+        }
     }
     
     public void moveLR(int x){
