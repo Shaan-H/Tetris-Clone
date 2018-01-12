@@ -12,21 +12,23 @@ import static javax.swing.BorderFactory.createRaisedBevelBorder;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyAdapter;
 import static java.awt.event.KeyEvent.*;
+import java.awt.event.KeyListener;
 
 /**
  *
  * @author Admin
  */
-public class TetrisISU extends JFrame{
+public class TetrisISU extends JFrame implements KeyListener{
     public JPanel BoardArea = new JPanel();
     public JPanel SideBoard = new JPanel();
     public JPanel[][] BoardArray = new JPanel[10][20];
     public JPanel[][] PreviewArea = new JPanel[5][5];
     public JLabel StatTitle = new JLabel("Stats");
-    public JLabel ScoreDisplay = new JLabel("Score = 0");
-    public JLabel LevelDisplay = new JLabel("0");
-    public static int level = 90;
     public int score = 0;
+    public JLabel ScoreDisplay = new JLabel("Score = " + score);
+    public static int level = 0;
+    public JLabel LevelDisplay = new JLabel("Level: " + level);
+    
     public int linesCompleted = 0;
     public Point piecePosition;
     public int rotation;
@@ -96,15 +98,24 @@ public class TetrisISU extends JFrame{
         BoardArea.setPreferredSize(new Dimension(500,1000));
         //sets the preffered size of the board area to 500 by 1000
         System.out.println(BoardArea.getPreferredSize());
+        SideBoard.setLayout(new BoxLayout(SideBoard, BoxLayout.PAGE_AXIS));
         add(SideBoard);
         //adds the sideboard to the window
         SideBoard.setBackground(Color.gray);
         //sets the background of the sideboard to gray
         SideBoard.setPreferredSize(new Dimension (250,1000));
+        //sets the preffered size of the side board
+        SideBoard.add(LevelDisplay);
+        SideBoard.add(ScoreDisplay);
+        LevelDisplay.setFont(new java.awt.Font("Tahoma", 0, 36));
+        LevelDisplay.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        addKeyListener(this);
         setVisible(true);
         //setResizable(false);
         setLocationRelativeTo(null);
         //centers the window
+        setFocusable(true);
+        
         start();
         //initilizes the game by calling the start method
     }
@@ -124,6 +135,8 @@ public class TetrisISU extends JFrame{
     private void newPiece(){
         piecePosition = new Point(4,0);
         rotation = 0;
+        ScoreDisplay.setText("Score = " + score);
+        LevelDisplay.setText("Level = " + level);
         if(collision(piecePosition.x,piecePosition.y,rotation)){
             gameRunning=false;
             endGame();
@@ -138,22 +151,31 @@ public class TetrisISU extends JFrame{
         }
         
     }
-    
+    @Override
     public void keyPressed(KeyEvent evt) {
-        System.out.println("LOLJK");
-        if (evt.getKeyChar() == VK_UP ) {
+        if (evt.getExtendedKeyCode()== VK_UP ) {
             rotate();
-            System.out.println("LOLJK");
         }
-        if (evt.getKeyCode() == VK_DOWN) {
+        if (evt.getExtendedKeyCode() == VK_DOWN) {
             moveDown();
+            score+=10;
+            ScoreDisplay.setText("Score = " + score);
         }
-        if (evt.getKeyCode() == VK_LEFT) {
+        if (evt.getExtendedKeyCode() == VK_LEFT) {
             moveLR(-1);
         }
-        if (evt.getKeyCode() == VK_RIGHT) {
-            moveLR(0);
+        if (evt.getExtendedKeyCode() == VK_RIGHT) {
+            moveLR(1);
         }
+    }
+    @Override
+    public void keyTyped(KeyEvent ke) {
+    
+    }
+
+    @Override
+    public void keyReleased(KeyEvent ke) {
+        
     }
     
     public void moveLR(int x){
@@ -163,8 +185,9 @@ public class TetrisISU extends JFrame{
         }
         if(!collision(piecePosition.x + x,piecePosition.y,rotation)){
             piecePosition.x += x;
-            drawPiece();
+            
         }
+        drawPiece();
     }
     
     public void moveDown(){
@@ -183,12 +206,16 @@ public class TetrisISU extends JFrame{
     }
     
     public void rotate(){
-        if(rotation<4){
-            rotation = 0;
+        for (Point p : tetrisisu.Shapes.TetrisShapes[currentPiece][rotation]){
+            BoardArray[p.x + piecePosition.x][p.y +piecePosition.y].setBackground(Color.black);
+            BoardArray[p.x + piecePosition.x][p.y +piecePosition.y].setBorder(BorderFactory.createLineBorder(Color.gray));
         }
-        else{
+        if(rotation>2){
+            rotation = 0;
+        }else{
             rotation++;
         }
+        drawPiece();
     }
     
     public void drawPiece(){
@@ -200,7 +227,7 @@ public class TetrisISU extends JFrame{
     
     public boolean collision(int x, int y, int rotationPos){
         for (Point p : tetrisisu.Shapes.TetrisShapes[currentPiece][rotation]){
-            if((p.x+x)>9 || (p.y+y)>19){
+            if((p.x+x)>9 || (p.y+y)>19 || (p.x+x)<0){
                 System.out.println("True1");
                 System.out.println(p.y+y);
                 return true; 
@@ -227,7 +254,8 @@ public class TetrisISU extends JFrame{
     public void clearsingle(int line){
         for(int y = line; y>0; y--){    
             for(int x=0; x<=9; x++){
-                BoardArray[x][line+1].setBackground(BoardArray[x][line].getBackground());
+                BoardArray[x][line].setBackground(BoardArray[x][line-1].getBackground());
+                BoardArray[x][line].setBorder(BoardArray[x][line-1].getBorder());
             }
             line--;
         }
@@ -259,10 +287,13 @@ public class TetrisISU extends JFrame{
         if(linesCompleted>=(20-level)){
             linesCompleted = 0;
             level++;
+            score += level*1000;
         }
     }
    
     public void endGame(){
         JOptionPane.showMessageDialog(null, "GAME OVER!  Final Score: " + score);
     }
+
+    
 }
