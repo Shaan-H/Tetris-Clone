@@ -22,11 +22,12 @@ public class TetrisISU extends JFrame{
     public JLabel StatTitle = new JLabel("Stats");
     public JLabel ScoreDisplay = new JLabel("Score = 0");
     public JLabel LevelDisplay = new JLabel("0");
-    public static int level = 75;
+    public static int level = 90;
     public int score = 0;
     public int linesCompleted = 0;
     public Point piecePosition;
     public int rotation;
+    public int totalclearline;
     public static int currentPiece, nextpiece;
     public static boolean gameRunning = true;
     
@@ -204,11 +205,14 @@ public class TetrisISU extends JFrame{
     
     
     public void clearsingle(int line){
-        for(int y = line; y>0; y--)    
+        for(int y = line; y>0; y--){    
             for(int x=0; x<=9; x++){
                 BoardArray[x][line+1].setBackground(BoardArray[x][line].getBackground());
             }
             line--;
+        }
+        linesCompleted++;
+        levelChecker();
     }
     
     public void clearmultiple(){
@@ -231,6 +235,13 @@ public class TetrisISU extends JFrame{
                 score+= 200*Math.pow(numClears,2);
     }
     
+    private void levelChecker(){
+        if(linesCompleted>=(20-level)){
+            linesCompleted = 0;
+            level++;
+        }
+    }
+   
     public void endGame(){
         JOptionPane.showMessageDialog(null, "GAME OVER!  Final Score: " + score);
     }
