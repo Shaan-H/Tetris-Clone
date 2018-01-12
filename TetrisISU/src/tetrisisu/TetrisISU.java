@@ -15,7 +15,6 @@ import static javax.swing.BorderFactory.createRaisedBevelBorder;
  * @author Admin
  */
 public class TetrisISU extends JFrame{
-    TetrisISU frame = new TetrisISU();
     public JPanel BoardArea = new JPanel();
     public JPanel SideBoard = new JPanel();
     public JPanel[][] BoardArray = new JPanel[10][20];
@@ -23,7 +22,7 @@ public class TetrisISU extends JFrame{
     public JLabel StatTitle = new JLabel("Stats");
     public JLabel ScoreDisplay = new JLabel("Score = 0");
     public JLabel LevelDisplay = new JLabel("0");
-    public static int level = 10;
+    public static int level = 75;
     public int score = 0;
     public int linesCompleted = 0;
     public Point piecePosition;
@@ -38,7 +37,7 @@ public class TetrisISU extends JFrame{
             @Override public void run(){
                 while(gameRunning){
                     try{
-                        Thread.sleep(1000-50*(level-1)); 
+                        Thread.sleep(1000-10*((level-1))); 
                         //The number of milliseconds that it takes for one game cycle
                         //goes down as the level increases
                            frame.moveDown();
@@ -199,36 +198,40 @@ public class TetrisISU extends JFrame{
             BoardArray[p.x + piecePosition.x][p.y +piecePosition.y].setBackground(Shapes.ShapesColors[currentPiece]);
             BoardArray[p.x + piecePosition.x][p.y +piecePosition.y].setBorder(createRaisedBevelBorder());
         }
+        clearmultiple();
         newPiece();
     }
     
     
     public void clearsingle(int line){
-        
-        for(int x=line-1; x<=0; x--){
-            for(int y=0; y<=9; y++){
-                BoardArray[x+1][y] = BoardArray[x][y];
+        for(int y = line; y>0; y--)    
+            for(int x=0; x<=9; x++){
+                BoardArray[x][line+1].setBackground(BoardArray[x][line].getBackground());
             }
-        }
+            line--;
     }
     
     public void clearmultiple(){
         boolean gap;
 		int numClears = 0;
 		
-		for (int x = 21; x > 0; x--) {
+		for (int y = 0; y < 20; y++) {
 			gap = false;
-			for (int y = 1; y < 11; y++) {
-				if (BoardArray[x][y].getBackground() != Color.black) {
+			for (int x = 0; x < 10; x++) {
+				if (BoardArray[x][y].getBackground().equals(Color.black)) {
 					gap = true;
-					break;
+                                        break;
 				}
 			}
 			if (!gap) {
-				clearsingle(x);
-				x += 1;
+				clearsingle(y);
 				numClears += 1;
 			}
 		}
+                score+= 200*Math.pow(numClears,2);
+    }
+    
+    public void endGame(){
+        JOptionPane.showMessageDialog(null, "GAME OVER!  Final Score: " + score);
     }
 }
