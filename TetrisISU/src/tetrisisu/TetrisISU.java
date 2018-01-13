@@ -250,10 +250,27 @@ public class TetrisISU extends JFrame implements KeyListener{
             BoardArray[p.x + piecePosition.x][p.y +piecePosition.y].setBackground(Color.black);
             BoardArray[p.x + piecePosition.x][p.y +piecePosition.y].setBorder(BorderFactory.createLineBorder(Color.gray));
         }
-        if(rotation>2){
-            rotation = 0;
-        }else{
-            rotation++;
+        int temprotation=0;
+        switch(rotation){
+            case 0: 
+                temprotation =1;
+                break;
+            case 1:
+                temprotation = 2;
+                break;
+            case 2:
+                temprotation = 3;
+                break;
+            case 3:
+                temprotation = 0;
+                break;
+        }
+        if(!collision(piecePosition.x,piecePosition.y,temprotation)){
+            if(rotation>2){
+                rotation = 0;
+            }else{
+                rotation++;
+            }
         }
         drawPiece();
     }
@@ -266,7 +283,7 @@ public class TetrisISU extends JFrame implements KeyListener{
     }
     
     public boolean collision(int x, int y, int rotationPos){
-        for (Point p : tetrisisu.Shapes.TetrisShapes[currentPiece][rotation]){
+        for (Point p : tetrisisu.Shapes.TetrisShapes[currentPiece][rotationPos]){
             if((p.x+x)>9 || (p.y+y)>19 || (p.x+x)<0){
                 return true; 
             }
