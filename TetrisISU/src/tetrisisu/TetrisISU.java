@@ -25,7 +25,7 @@ public class TetrisISU extends JFrame implements KeyListener{
     public JLabel StatTitle = new JLabel("Stats");
     public int score = 0;
     public JLabel ScoreDisplay = new JLabel("Score = " + score);
-    public static int level = 1;
+    public static int level = 29;
     public JLabel LevelDisplay = new JLabel("Level: " + level);
     Thread s1 = new soundTrack1();
     Thread s2 = new soundTrack2();

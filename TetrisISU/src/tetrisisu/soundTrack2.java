@@ -22,7 +22,7 @@ public class soundTrack2 extends Thread{
     public void run(){
         while(gameRunning){
             try{
-                File file = new File("DayNnight.mp3");
+                File file = new File("TetrisMusic2.mp3");
                 FileInputStream fis = new FileInputStream(file);
                 BufferedInputStream bis = new BufferedInputStream(fis);
 
