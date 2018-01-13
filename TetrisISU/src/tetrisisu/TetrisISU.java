@@ -12,10 +12,6 @@ import static javax.swing.BorderFactory.createRaisedBevelBorder;
 import java.awt.event.KeyEvent;
 import static java.awt.event.KeyEvent.*;
 import java.awt.event.KeyListener;
-import java.io.BufferedInputStream;
-import java.io.*;
-import javazoom.jl.decoder.JavaLayerException;
-import javazoom.jl.player.advanced.AdvancedPlayer;
 /**
  *
  * @author Admin
@@ -24,7 +20,8 @@ public class TetrisISU extends JFrame implements KeyListener{
     public JPanel BoardArea = new JPanel();
     public JPanel SideBoard = new JPanel();
     public JPanel[][] BoardArray = new JPanel[10][20];
-    public JPanel[][] PreviewArea = new JPanel[5][5];
+    public JPanel[][] previewPanels = new JPanel[5][5];
+    public JPanel previewArea = new JPanel();
     public JLabel StatTitle = new JLabel("Stats");
     public int score = 0;
     public JLabel ScoreDisplay = new JLabel("Score = " + score);
@@ -73,6 +70,7 @@ public class TetrisISU extends JFrame implements KeyListener{
         setLayout(layout);
         //sets the layout to the window
         
+        
         GridLayout layout1 = new GridLayout(20,10,0,0);
         //makes a new gridlayout with 20 rows and 10 columns
         BoardArea.setLayout(layout1);
@@ -97,22 +95,45 @@ public class TetrisISU extends JFrame implements KeyListener{
             }
         }
         //iterates through all 200 jpanels setting them all to look the same and adding them to the board area
+        BoardArea.setPreferredSize(new Dimension(500,1000));
+        //sets the preffered size of the board area to 500 by 1000
         add(BoardArea);
         //adds the boardarea to the window
         
-        BoardArea.setPreferredSize(new Dimension(500,1000));
-        //sets the preffered size of the board area to 500 by 1000
+        
+        previewArea.setLayout(new GridLayout(5,5,0,0));
+        
+        for(int x=0;x<5;x++){
+            for(int y=0;y<5;y++){
+                previewPanels[y][x] = new JPanel();
+                previewPanels[y][x].setBackground(Color.black);
+                previewPanels[y][x].setPreferredSize(new Dimension(5,5));
+                previewPanels[y][x].setBorder(BorderFactory.createLineBorder(Color.gray,1));
+                previewArea.add(previewPanels[y][x]);
+                
+            }
+        }
+        
+        previewArea.setPreferredSize(new Dimension(125,125));
+        
         SideBoard.setLayout(new BoxLayout(SideBoard, BoxLayout.PAGE_AXIS));
-        add(SideBoard);
-        //adds the sideboard to the window
+        //sets a boxlayout manager on the sideboard
         SideBoard.setBackground(Color.gray);
         //sets the background of the sideboard to gray
         SideBoard.setPreferredSize(new Dimension (250,1000));
         //sets the preffered size of the side board
-        SideBoard.add(LevelDisplay);
-        SideBoard.add(ScoreDisplay);
+        
+        SideBoard.add(previewArea);
+        
         LevelDisplay.setFont(new java.awt.Font("Tahoma", 0, 36));
+        //sets the font type and size of the level display
         LevelDisplay.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        SideBoard.add(LevelDisplay);
+        //adds the level display to the sideboard
+        SideBoard.add(ScoreDisplay);
+        //adds the score display to the sideboard
+        add(SideBoard);
+        //adds the sideboard to the window
         addKeyListener(this);
         setVisible(true);
         //setResizable(false);
@@ -128,27 +149,39 @@ public class TetrisISU extends JFrame implements KeyListener{
     
     private void start(){
         Random rand = new Random();
+        //creates a random value
         int a = rand.nextInt(7);
         //creates a random number from 0 to 6
         nextpiece = a;
         //sets the next piece to be at a random index of the shapes point array.
         newPiece();
-       music();
+        //calls the new piece method
+        music();
+        //starts the music by calling the music method
     }
 
     private void music(){ 
         s1.start();
+        //starts a thread declared and initlized in the global variable list.
     }
     
     
     private void newPiece(){
         piecePosition = new Point(4,0);
+        //sets the inital point where pieces spawn
         rotation = 0;
+        //sets the roation to 0
         ScoreDisplay.setText("Score = " + score);
+        //refreshes the score display
         LevelDisplay.setText("Level = " + level);
+        //refreshes the level display
         if(collision(piecePosition.x,piecePosition.y,rotation)){
+        //checks to see if spawining a peice would cause it to collide with another piece
+        //if it does then that means that the game is over
             gameRunning=false;
+            //gameRunning is set to false, stopping all the while loops in the threads
             endGame();
+            //the end game function is called
             
         } else{
             Random rand = new Random();
@@ -290,7 +323,7 @@ public class TetrisISU extends JFrame implements KeyListener{
         if(linesCompleted>=(20-level)){
             linesCompleted = 0;
             level++;
-            score += level*1000;
+            score += level*100;
         }
         if(level>29 && level<31){
             s1.stop();
@@ -300,6 +333,7 @@ public class TetrisISU extends JFrame implements KeyListener{
    
     public void endGame(){
         JOptionPane.showMessageDialog(null, "GAME OVER!  Final Score: " + score);
+        //a joptionpane pops up with the message that the game is over and displays the final score
     }
 
     
