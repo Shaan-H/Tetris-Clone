@@ -20,8 +20,6 @@ public class TetrisISU extends JFrame implements KeyListener{
     public JPanel BoardArea = new JPanel();
     public JPanel SideBoard = new JPanel();
     public JPanel[][] BoardArray = new JPanel[10][20];
-    public JPanel[][] previewPanels = new JPanel[5][5];
-    public JPanel previewArea = new JPanel();
     public JLabel StatTitle = new JLabel("Stats");
     public int score = 0;
     public JLabel ScoreDisplay = new JLabel("Score = " + score);
@@ -101,29 +99,12 @@ public class TetrisISU extends JFrame implements KeyListener{
         //adds the boardarea to the window
         
         
-        previewArea.setLayout(new GridLayout(5,5,0,0));
-        
-        for(int x=0;x<5;x++){
-            for(int y=0;y<5;y++){
-                previewPanels[y][x] = new JPanel();
-                previewPanels[y][x].setBackground(Color.black);
-                previewPanels[y][x].setPreferredSize(new Dimension(5,5));
-                previewPanels[y][x].setBorder(BorderFactory.createLineBorder(Color.gray,1));
-                previewArea.add(previewPanels[y][x]);
-                
-            }
-        }
-        
-        previewArea.setPreferredSize(new Dimension(125,125));
-        
         SideBoard.setLayout(new BoxLayout(SideBoard, BoxLayout.PAGE_AXIS));
         //sets a boxlayout manager on the sideboard
         SideBoard.setBackground(Color.gray);
         //sets the background of the sideboard to gray
         SideBoard.setPreferredSize(new Dimension (250,1000));
         //sets the preffered size of the side board
-        
-        SideBoard.add(previewArea);
         
         LevelDisplay.setFont(new java.awt.Font("Tahoma", 0, 36));
         //sets the font type and size of the level display
