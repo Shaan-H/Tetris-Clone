@@ -10,10 +10,12 @@ import java.util.Random;
 import javax.swing.*;
 import static javax.swing.BorderFactory.createRaisedBevelBorder;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyAdapter;
 import static java.awt.event.KeyEvent.*;
 import java.awt.event.KeyListener;
-
+import java.io.BufferedInputStream;
+import java.io.*;
+import javazoom.jl.decoder.JavaLayerException;
+import javazoom.jl.player.advanced.AdvancedPlayer;
 /**
  *
  * @author Admin
@@ -26,15 +28,18 @@ public class TetrisISU extends JFrame implements KeyListener{
     public JLabel StatTitle = new JLabel("Stats");
     public int score = 0;
     public JLabel ScoreDisplay = new JLabel("Score = " + score);
-    public static int level = 0;
+    public static int level = 1;
     public JLabel LevelDisplay = new JLabel("Level: " + level);
-    
+    Thread s1 = new soundTrack1();
+    Thread s2 = new Thread();
     public int linesCompleted = 0;
     public Point piecePosition;
     public int rotation;
     public int totalclearline;
     public static int currentPiece, nextpiece;
     public static boolean gameRunning = true;
+    public boolean Sound1 = true;
+    public boolean Sound2 = false;
     
     public static void main(String[] args) {
         TetrisISU frame = new TetrisISU();
@@ -97,7 +102,6 @@ public class TetrisISU extends JFrame implements KeyListener{
         
         BoardArea.setPreferredSize(new Dimension(500,1000));
         //sets the preffered size of the board area to 500 by 1000
-        System.out.println(BoardArea.getPreferredSize());
         SideBoard.setLayout(new BoxLayout(SideBoard, BoxLayout.PAGE_AXIS));
         add(SideBoard);
         //adds the sideboard to the window
@@ -120,17 +124,44 @@ public class TetrisISU extends JFrame implements KeyListener{
         //initilizes the game by calling the start method
     }
     
+    
+    
     private void start(){
         Random rand = new Random();
         int a = rand.nextInt(7);
         //creates a random number from 0 to 6
         nextpiece = a;
-        System.out.println(nextpiece);
         //sets the next piece to be at a random index of the shapes point array.
         newPiece();
-        
-        
+       music();
     }
+
+    private void music(){
+        s1.start();
+    /*    
+        new Thread(){
+            @Override public void run(){
+                while(gameRunning){
+                    try{
+                        File file = new File("1x1.mp3");
+                        FileInputStream fis = new FileInputStream(file);
+                        BufferedInputStream bis = new BufferedInputStream(fis);
+
+                        try{
+
+                            AdvancedPlayer player = new AdvancedPlayer(bis);
+                            player.play();
+
+                        } catch(JavaLayerException ex) {}
+
+                    } catch(IOException e){} 
+                }
+            }
+	}.start();
+        //runs the program
+*/
+    }
+    
     
     private void newPiece(){
         piecePosition = new Point(4,0);
@@ -146,7 +177,6 @@ public class TetrisISU extends JFrame implements KeyListener{
             int b = rand.nextInt(7);
             currentPiece = nextpiece;
             nextpiece = b;
-            System.out.println("Current Piece: " + currentPiece + " Next Peice: " + nextpiece);
             drawPiece();
         }
         
@@ -191,7 +221,6 @@ public class TetrisISU extends JFrame implements KeyListener{
     }
     
     public void moveDown(){
-        System.out.println(piecePosition.y+1);
         for (Point p : tetrisisu.Shapes.TetrisShapes[currentPiece][rotation]){
             BoardArray[p.x + piecePosition.x][p.y +piecePosition.y].setBackground(Color.black);
             BoardArray[p.x + piecePosition.x][p.y +piecePosition.y].setBorder(BorderFactory.createLineBorder(Color.gray));
@@ -228,16 +257,12 @@ public class TetrisISU extends JFrame implements KeyListener{
     public boolean collision(int x, int y, int rotationPos){
         for (Point p : tetrisisu.Shapes.TetrisShapes[currentPiece][rotation]){
             if((p.x+x)>9 || (p.y+y)>19 || (p.x+x)<0){
-                System.out.println("True1");
-                System.out.println(p.y+y);
                 return true; 
             }
             else if(BoardArray[p.x + x][p.y + y].getBackground() != Color.BLACK) {    
-                System.out.println("True2");
                 return true;
             }
         }
-        System.out.println("False");
         return false;
     }
     
