@@ -18,12 +18,15 @@ import java.awt.event.KeyListener;
  */
 public class TetrisISU extends JFrame implements KeyListener{
     public JPanel BoardArea = new JPanel();
+    //initilizes a new jpanel called boardarea
     public JPanel SideBoard = new JPanel();
+    //initlizes a new jpanel called sideboard
     public JPanel[][] BoardArray = new JPanel[10][20];
+    //
     public JLabel StatTitle = new JLabel("Stats");
     public int score = 0;
     public JLabel ScoreDisplay = new JLabel("Score = " + score);
-    public static int level = 29;
+    public static int level = 1;
     public JLabel LevelDisplay = new JLabel("Level: " + level);
     Thread s1 = new soundTrack1();
     Thread s2 = new soundTrack2();
