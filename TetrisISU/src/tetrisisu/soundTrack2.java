@@ -1,7 +1,5 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * This defines the second soundtrack
  */
 package tetrisisu;
 
@@ -13,11 +11,9 @@ import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.advanced.AdvancedPlayer;
 import static tetrisisu.TetrisISU.gameRunning;
 
-/**
- *
- * @author Admin
- */
-public class soundTrack2 extends Thread{
+//Imports the tools that java needs to run this program
+
+public class soundTrack2 extends Thread{ //Refer to soundTrack1
     @Override 
     public void run(){
         while(gameRunning){
