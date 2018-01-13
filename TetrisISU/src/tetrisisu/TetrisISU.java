@@ -31,7 +31,7 @@ public class TetrisISU extends JFrame implements KeyListener{
     public static int level = 1;
     public JLabel LevelDisplay = new JLabel("Level: " + level);
     Thread s1 = new soundTrack1();
-    Thread s2 = new Thread();
+    Thread s2 = new soundTrack2();
     public int linesCompleted = 0;
     public Point piecePosition;
     public int rotation;
@@ -136,30 +136,8 @@ public class TetrisISU extends JFrame implements KeyListener{
        music();
     }
 
-    private void music(){
+    private void music(){ 
         s1.start();
-    /*    
-        new Thread(){
-            @Override public void run(){
-                while(gameRunning){
-                    try{
-                        File file = new File("1x1.mp3");
-                        FileInputStream fis = new FileInputStream(file);
-                        BufferedInputStream bis = new BufferedInputStream(fis);
-
-                        try{
-
-                            AdvancedPlayer player = new AdvancedPlayer(bis);
-                            player.play();
-
-                        } catch(JavaLayerException ex) {}
-
-                    } catch(IOException e){} 
-                }
-            }
-	}.start();
-        //runs the program
-*/
     }
     
     
@@ -313,6 +291,10 @@ public class TetrisISU extends JFrame implements KeyListener{
             linesCompleted = 0;
             level++;
             score += level*1000;
+        }
+        if(level>29 && level<31){
+            s1.stop();
+            s2.start();
         }
     }
    
