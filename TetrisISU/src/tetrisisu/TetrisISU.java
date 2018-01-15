@@ -22,20 +22,40 @@ public class TetrisISU extends JFrame implements KeyListener{
     public JPanel SideBoard = new JPanel();
     //initlizes a new jpanel called sideboard
     public JPanel[][] BoardArray = new JPanel[10][20];
-    //
-    public JLabel StatTitle = new JLabel("Stats");
+    //makes a new jpanel array for the gameboard
+    public JLabel GameTitle = new JLabel("TETRIS");
+    public JLabel StatTitle = new JLabel("Statistics");
+    //makes a new jlabel for the side screen where all the statistics are going to be displayed
+    private JLabel ControlTitle = new JLabel("Controls");
+    private JLabel Control1 = new JLabel("Rotate Piece: Up Arrow");
+    private JLabel Control2 = new JLabel("Move Piece Left: Left Arrow");
+    private JLabel Control3 = new JLabel("Move Piece Right: Right Arrow");
+    private JLabel Control4 = new JLabel("Drop Piece: Down Arrow");
     public int score = 0;
+    //makes an integer to store the score
     public JLabel ScoreDisplay = new JLabel("Score = " + score);
-    public static int level = 1;
+    //makes a new jlabel to display the score on the side board
+    public static int level = 29;
+    //makes an integer to store the level (set the level to 29 to hear the music change more quickly)
     public JLabel LevelDisplay = new JLabel("Level: " + level);
+    //makes a jlabel to display the level
     Thread s1 = new soundTrack1();
+    //makes a new thread for the playing of the first soundtrack
+    //the reason that a new thread is used is so that the music can play without slowing down the game itself
     Thread s2 = new soundTrack2();
+    //makes a new thread for the playing of the second soundtrack
     public int linesCompleted = 0;
+    //makes a public integer to contain how many lines have been completed since the last level up
     public Point piecePosition;
+    //makes a new point to contain the position of the refrence point of the current piece
     public int rotation;
-    public int totalclearline;
+    //makes an integer to contain the rotation
+    public int totalclearline = 0;
+    //makes a new public integer that contains the total number of lines that have been cleared
     public static int currentPiece, nextpiece;
+    //makes 2 new integers to hold the indexes of the current and next piece
     public static boolean gameRunning = true;
+    //
     public boolean Sound1 = true;
     public boolean Sound2 = false;
     
@@ -102,20 +122,84 @@ public class TetrisISU extends JFrame implements KeyListener{
         //adds the boardarea to the window
         
         
-        SideBoard.setLayout(new BoxLayout(SideBoard, BoxLayout.PAGE_AXIS));
+        SideBoard.setLayout(new BoxLayout(SideBoard, BoxLayout.Y_AXIS));
         //sets a boxlayout manager on the sideboard
         SideBoard.setBackground(Color.gray);
         //sets the background of the sideboard to gray
         SideBoard.setPreferredSize(new Dimension (250,1000));
         //sets the preffered size of the side board
         
-        LevelDisplay.setFont(new java.awt.Font("Tahoma", 0, 36));
+        SideBoard.add(Box.createRigidArea(new Dimension(0,20)));
+        
+        GameTitle.setFont(new java.awt.Font("Tahoma", 0, 50));
+        //sets the font of the statistic title
+        GameTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
+        //centers the component on the sideboard
+        SideBoard.add(GameTitle);
+        //adds the title to the side board
+        
+        SideBoard.add(Box.createRigidArea(new Dimension(0,50)));
+        //adds a spacer to the side board to spread the elements out
+        
+        StatTitle.setFont(new java.awt.Font("Tahoma", 0, 36));
+        //sets the font of the statistic title
+        StatTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
+        ////centers the component on the sideboard
+        SideBoard.add(StatTitle);
+        //adds the title to the side board
+        
+        LevelDisplay.setFont(new java.awt.Font("Tahoma", 0, 20));
         //sets the font type and size of the level display
-        LevelDisplay.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        LevelDisplay.setAlignmentX(Component.CENTER_ALIGNMENT);
+        //centers the component on the sideboard
         SideBoard.add(LevelDisplay);
         //adds the level display to the sideboard
+        
+        ScoreDisplay.setFont(new java.awt.Font("Tahoma", 0, 20));
+        //sets the font type and size of the score display
+        ScoreDisplay.setAlignmentX(Component.CENTER_ALIGNMENT);
+        //centers the component on the sideboard
         SideBoard.add(ScoreDisplay);
         //adds the score display to the sideboard
+        
+        SideBoard.add(Box.createRigidArea(new Dimension(0,50)));
+        //adds a spacer to the side board to spread the elements out
+        
+        ControlTitle.setFont(new java.awt.Font("Tahoma", 0, 36));
+        //sets the font of the statistic title
+        ControlTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
+        ////centers the component on the sideboard
+        SideBoard.add(ControlTitle);
+        //adds the title to the side board
+        
+        Control1.setFont(new java.awt.Font("Tahoma", 0, 15));
+        //sets the font of the statistic title
+        Control1.setAlignmentX(Component.CENTER_ALIGNMENT);
+        ////centers the component on the sideboard
+        SideBoard.add(Control1);
+        //adds the title to the side board
+        
+        Control2.setFont(new java.awt.Font("Tahoma", 0, 15));
+        //sets the font of the statistic title
+        Control2.setAlignmentX(Component.CENTER_ALIGNMENT);
+        ////centers the component on the sideboard
+        SideBoard.add(Control2);
+        //adds the title to the side board
+        
+        Control3.setFont(new java.awt.Font("Tahoma", 0, 15));
+        //sets the font of the statistic title
+        Control3.setAlignmentX(Component.CENTER_ALIGNMENT);
+        ////centers the component on the sideboard
+        SideBoard.add(Control3);
+        //adds the title to the side board
+        
+        Control4.setFont(new java.awt.Font("Tahoma", 0, 15));
+        //sets the font of the statistic title
+        Control4.setAlignmentX(Component.CENTER_ALIGNMENT);
+        ////centers the component on the sideboard
+        SideBoard.add(Control4);
+        //adds the title to the side board
+        
         add(SideBoard);
         //adds the sideboard to the window
         addKeyListener(this);
@@ -313,22 +397,34 @@ public class TetrisISU extends JFrame implements KeyListener{
 				}
 			}
 			if (!gap) {
+                        //if there is no gap
 				clearsingle(y);
+                                //calls the clearsingle line method and passes the y coordinate of the line that is filled
 				numClears += 1;
+                                //adds one to the number of clears
 			}
 		}
                 score+= 200*Math.pow(numClears,2);
+                //adds 200 times, the number of clears that were preformed this method call, squared.
     }
     
     private void levelChecker(){
         if(linesCompleted>=(20-level)){
+            //if the number of lines complete is greater than or equal to 20 minus the level
+            //this results in a uniqe difficulty ramp
             linesCompleted = 0;
+            //set lines completed to 0
             level++;
+            //adds one to the level
             score += level*100;
+            //adds 100 times the level to the current score
         }
         if(level>29 && level<31){
+        //checks to see if the current level is between 29 and 31.
             s1.stop();
+            //stops the thread playing sound track 1
             s2.start();
+            //starts the thread that is set to play sound track 2
         }
     }
    
