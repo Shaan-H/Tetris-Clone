@@ -46,6 +46,9 @@ public class TetrisISU extends JFrame implements KeyListener{
     //makes an integer to store the level (set the level to 29 and complete one line to hear the music change more quickly)
     public JLabel LevelDisplay = new JLabel("Level: " + level);
     //makes a jlabel to display the level
+    public int totalclearline = 0;
+    //makes a new public integer that contains the total number of lines that have been cleared
+    public JLabel LinesCleared = new JLabel("Total Lines Cleared: " + totalclearline);
     Thread s1 = new soundTrack1();
     //makes a new thread for the playing of the first soundtrack
     //the reason that a new thread is used is so that the music can play without slowing down the game itself
@@ -57,8 +60,7 @@ public class TetrisISU extends JFrame implements KeyListener{
     //makes a new point to contain the position of the refrence point of the current piece
     public int rotation;
     //makes an integer to contain the rotation
-    public int totalclearline = 0;
-    //makes a new public integer that contains the total number of lines that have been cleared
+
     public static int currentPiece, nextpiece;
     //makes 2 new integers to hold the indexes of the current and next piece
     public static boolean gameRunning = true;
@@ -170,6 +172,13 @@ public class TetrisISU extends JFrame implements KeyListener{
         //centers the component on the sideboard
         SideBoard.add(ScoreDisplay);
         //adds the score display to the sideboard
+        
+        LinesCleared.setFont(new java.awt.Font("Tahoma", 0, 20));
+        //sets the font type and size of the score display
+        LinesCleared.setAlignmentX(Component.CENTER_ALIGNMENT);
+        //centers the component on the sideboard
+        SideBoard.add(LinesCleared);
+        //adds the lines cleared display to the sideboard
         
         SideBoard.add(Box.createRigidArea(new Dimension(0,50)));
         //adds a spacer to the side board to spread the elements out
@@ -477,6 +486,10 @@ public class TetrisISU extends JFrame implements KeyListener{
         }
         linesCompleted++;
         //adds one to the number of lines cleared
+        totalclearline++;
+        //adds one to the total number of lines cleared
+        LinesCleared.setText("Total Lines Cleared: " + totalclearline);
+        //refreshes the total lines cleared display
         levelChecker();
         //calls the level checker method
     }
