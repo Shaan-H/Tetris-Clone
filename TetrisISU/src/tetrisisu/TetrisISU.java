@@ -437,14 +437,21 @@ public class TetrisISU extends JFrame implements KeyListener{
     
     public boolean collision(int x, int y, int rotationPos){
         for (Point p : tetrisisu.Shapes.TetrisShapes[currentPiece][rotationPos]){
+        //iterates through all the points of the current shape using an enhanced for loop
             if((p.x+x)>9 || (p.y+y)>19 || (p.x+x)<0){
+            //if any of the positions, after the transformation, would be outside of the board then:
                 return true; 
+                //return true to the place that called the method
             }
-            else if(BoardArray[p.x + x][p.y + y].getBackground() != Color.BLACK) {    
+            else if(BoardArray[p.x + x][p.y + y].getBackground() != Color.BLACK) {
+            //or if the positions after the transformation would endup in a space that is already occupied by a piece 
+            //and therefore the color of the tile is not black then:
                 return true;
+                //return true to the place that called the method
             }
         }
         return false;
+        //if none of the the above conditions are met then return false to the place that called the method because there is no collision
     }
     
     public void PinToBoard(){
@@ -458,13 +465,15 @@ public class TetrisISU extends JFrame implements KeyListener{
     
     
     public void clearsingle(int line){
-        for(int y = line; y>0; y--){    
+        for(int y = line; y>0; y--){
+        //iterates through all 20 lines starting at the the line that is passed to the method through the line argument, and moving up the board.
             for(int x=0; x<=9; x++){
-                BoardArray[x][line].setBackground(BoardArray[x][line-1].getBackground());
-                BoardArray[x][line].setBorder(BoardArray[x][line-1].getBorder());
+            //iterates through all 10 colomns
+                BoardArray[x][y].setBackground(BoardArray[x][y-1].getBackground());
+                //replaces the color of the background of the current line with the color of the background above it 
+                BoardArray[x][y].setBorder(BoardArray[x][y-1].getBorder());
+                //replaces the border of the current line with the border of the line above it
             }
-            line--;
-            //subtracts one from the line integer allowing for iteration through all the colomns
         }
         linesCompleted++;
         //adds one to the number of lines cleared
