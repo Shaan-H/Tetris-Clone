@@ -12,6 +12,7 @@ import static javax.swing.BorderFactory.createRaisedBevelBorder;
 import java.awt.event.KeyEvent;
 import static java.awt.event.KeyEvent.*;
 import java.awt.event.KeyListener;
+//imports all the packages that are required for the program
 /**
  *
  * @author Admin
@@ -24,19 +25,25 @@ public class TetrisISU extends JFrame implements KeyListener{
     public JPanel[][] BoardArray = new JPanel[10][20];
     //makes a new jpanel array for the gameboard
     public JLabel GameTitle = new JLabel("TETRIS");
+    //creates a new label which contains the title of the game
     public JLabel StatTitle = new JLabel("Statistics");
     //makes a new jlabel for the side screen where all the statistics are going to be displayed
-    private JLabel ControlTitle = new JLabel("Controls");
-    private JLabel Control1 = new JLabel("Rotate Piece: Up Arrow");
-    private JLabel Control2 = new JLabel("Move Piece Left: Left Arrow");
-    private JLabel Control3 = new JLabel("Move Piece Right: Right Arrow");
-    private JLabel Control4 = new JLabel("Drop Piece: Down Arrow");
+    private final JLabel ControlTitle = new JLabel("Controls");
+    //declares a jlabel containing a subheading for the controls section
+    private final JLabel Control1 = new JLabel("Rotate Piece: Up Arrow");
+    //declares a jlabel that contains one of the controls
+    private final JLabel Control2 = new JLabel("Move Piece Left: Left Arrow");
+    //declares a jLabel that contains one of the controls
+    private final JLabel Control3 = new JLabel("Move Piece Right: Right Arrow");
+    //declares a jLabel that contains one of the controls
+    private final JLabel Control4 = new JLabel("Drop Piece: Down Arrow");
+    //declares a jLabel that contains one of the controls
     public int score = 0;
     //makes an integer to store the score
     public JLabel ScoreDisplay = new JLabel("Score = " + score);
     //makes a new jlabel to display the score on the side board
-    public static int level = 29;
-    //makes an integer to store the level (set the level to 29 to hear the music change more quickly)
+    public static int level = 1;
+    //makes an integer to store the level (set the level to 29 and complete one line to hear the music change more quickly)
     public JLabel LevelDisplay = new JLabel("Level: " + level);
     //makes a jlabel to display the level
     Thread s1 = new soundTrack1();
@@ -55,24 +62,25 @@ public class TetrisISU extends JFrame implements KeyListener{
     public static int currentPiece, nextpiece;
     //makes 2 new integers to hold the indexes of the current and next piece
     public static boolean gameRunning = true;
-    //
-    public boolean Sound1 = true;
-    public boolean Sound2 = false;
+    //declares a boolean which toggles the thread that moves the pieces down.
     
     public static void main(String[] args) {
         TetrisISU frame = new TetrisISU();
         //runs the layout class
         new Thread(){
             @Override public void run(){
+            //overrides methods that are built into the thread object
                 while(gameRunning){
+                //checks to see if the game is still running before continuing with the loop
                     try{
+                        frame.moveDown();
+                        //calls a function from the instace of the game that was created
                         Thread.sleep(1000-10*((level-1))); 
                         //The number of milliseconds that it takes for one game cycle
                         //goes down as the level increases
-                           frame.moveDown();
-                           //calls a function from the instace of the game that was created
+                        //this makes a difficulty modifier which decreases the time by 1 percent every level   
                     } catch(InterruptedException e){}
-                    //prevents an interruptedException error from showing up
+                    //prevents the program from crashing if an exeption is encountered
                 }
             }
 	}.start();
@@ -82,7 +90,7 @@ public class TetrisISU extends JFrame implements KeyListener{
     
     public TetrisISU(){
     //sets the look and adds the elements to the window
-        setSize(new Dimension(766,1039));
+        setSize(new Dimension(756,1029));
         //sets the size of the window
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //sets the operation of when the user hits the x button
@@ -130,9 +138,10 @@ public class TetrisISU extends JFrame implements KeyListener{
         //sets the preffered size of the side board
         
         SideBoard.add(Box.createRigidArea(new Dimension(0,20)));
+        //creates a rigid area to space out the different sections and adds it to the sideboard
         
         GameTitle.setFont(new java.awt.Font("Tahoma", 0, 50));
-        //sets the font of the statistic title
+        //sets the font of the game title
         GameTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
         //centers the component on the sideboard
         SideBoard.add(GameTitle);
@@ -144,7 +153,7 @@ public class TetrisISU extends JFrame implements KeyListener{
         StatTitle.setFont(new java.awt.Font("Tahoma", 0, 36));
         //sets the font of the statistic title
         StatTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
-        ////centers the component on the sideboard
+        //centers the component on the sideboard
         SideBoard.add(StatTitle);
         //adds the title to the side board
         
@@ -175,39 +184,43 @@ public class TetrisISU extends JFrame implements KeyListener{
         Control1.setFont(new java.awt.Font("Tahoma", 0, 15));
         //sets the font of the statistic title
         Control1.setAlignmentX(Component.CENTER_ALIGNMENT);
-        ////centers the component on the sideboard
+        //centers the component on the sideboard
         SideBoard.add(Control1);
         //adds the title to the side board
         
         Control2.setFont(new java.awt.Font("Tahoma", 0, 15));
         //sets the font of the statistic title
         Control2.setAlignmentX(Component.CENTER_ALIGNMENT);
-        ////centers the component on the sideboard
+        //centers the component on the sideboard
         SideBoard.add(Control2);
         //adds the title to the side board
         
         Control3.setFont(new java.awt.Font("Tahoma", 0, 15));
         //sets the font of the statistic title
         Control3.setAlignmentX(Component.CENTER_ALIGNMENT);
-        ////centers the component on the sideboard
+        //centers the component on the sideboard
         SideBoard.add(Control3);
         //adds the title to the side board
         
         Control4.setFont(new java.awt.Font("Tahoma", 0, 15));
         //sets the font of the statistic title
         Control4.setAlignmentX(Component.CENTER_ALIGNMENT);
-        ////centers the component on the sideboard
+        //centers the component on the sideboard
         SideBoard.add(Control4);
         //adds the title to the side board
         
         add(SideBoard);
         //adds the sideboard to the window
         addKeyListener(this);
+        //adds a keylistener to the window
         setVisible(true);
         //setResizable(false);
         setLocationRelativeTo(null);
-        //centers the window
+        //centers the window in the screen
         setFocusable(true);
+        //sets the window to focusable in order to allow the keylistener to work
+        setResizable(false);
+        //prevents the window from being resized.
         
         start();
         //initilizes the game by calling the start method
@@ -231,6 +244,7 @@ public class TetrisISU extends JFrame implements KeyListener{
     private void music(){ 
         s1.start();
         //starts a thread declared and initlized in the global variable list.
+        //starting this thread plays the first soundtrack
     }
     
     
@@ -252,101 +266,172 @@ public class TetrisISU extends JFrame implements KeyListener{
             //the end game function is called
             
         } else{
+        //if there is no collision then:
             Random rand = new Random();
+            //create a new random value
             int b = rand.nextInt(7);
+            //creates a value from 0 to 6
             currentPiece = nextpiece;
+            //sets the current piece to equal the nextpeice
             nextpiece = b;
+            //assigns a new piece to the nextpiece
             drawPiece();
+            //calls the drawpiece method
         }
         
     }
+    
+    /**
+     *
+     * @param evt
+     * when the keylistener picks up a keypress it calls this method and passes it an object with all the information about the keypress
+     */
     @Override
+    //overrides a method from the superclass
     public void keyPressed(KeyEvent evt) {
         if (evt.getExtendedKeyCode()== VK_UP ) {
+        //if the key pressed was the arrow up key then:
             rotate();
+            //call the rotate method
         }
         if (evt.getExtendedKeyCode() == VK_DOWN) {
+        //if the key pressed was the arrow down key then:
             moveDown();
+            //call the moveDown method
             score+=10;
+            //add 10 points to the score
             ScoreDisplay.setText("Score = " + score);
+            //refresh the score label
         }
         if (evt.getExtendedKeyCode() == VK_LEFT) {
+        //if the key pressed was the arrow left key then:
             moveLR(-1);
+            //call the moveLR method, passing it the value of -1
         }
         if (evt.getExtendedKeyCode() == VK_RIGHT) {
+        //if the key pressed was the arrow right key then:
             moveLR(1);
+            //call the moveLR method, passing it the value of 1
         }
     }
     @Override
-    public void keyTyped(KeyEvent ke) {
-    
-    }
+    public void keyTyped(KeyEvent ke) {}
+    //ensures that nothing happens when a key is typed
 
     @Override
-    public void keyReleased(KeyEvent ke) {
-        
-    }
+    public void keyReleased(KeyEvent ke) {}
+    //ensures that nothing happens when a key is relesed
     
+    /**
+     *
+     * @param x the argument passed indicates whether the piece should be moved to left of right with -1 being left and 1 being right
+     * 
+     */
     public void moveLR(int x){
         for (Point p : tetrisisu.Shapes.TetrisShapes[currentPiece][rotation]){
+        //iterates through all the points in the current shape with an enhanced for loop
             BoardArray[p.x + piecePosition.x][p.y +piecePosition.y].setBackground(Color.black);
+            //sets all the board arrays back to the original black so that the current piece's colors do not interfere with the collision testing
+            //does this by adding the x and y coordinants of the piceposition which is a refrece positoin and adding that to the x and y values of the shapes points
+            //and looking at those indexes in the boardarray
             BoardArray[p.x + piecePosition.x][p.y +piecePosition.y].setBorder(BorderFactory.createLineBorder(Color.gray));
+            //creates the line borders on the board tiles that the piece resides on so that if the piece moves left or right,
+            //it looks the same as all the other empty tiles
         }
         if(!collision(piecePosition.x + x,piecePosition.y,rotation)){
+        //if there are no collisions with the proposed move of the piece then:
+        //gets the current position of the refrence point of the piece and adds the proposed move to it
             piecePosition.x += x;
+            //sets the x coordiant of the refrence point equivilent to itself plus the proposed movement
             
         }
         drawPiece();
+        //calls the drawpiece method
     }
     
     public void moveDown(){
         for (Point p : tetrisisu.Shapes.TetrisShapes[currentPiece][rotation]){
+        //iterates through all the points in the current shape with an enhanced for loop
             BoardArray[p.x + piecePosition.x][p.y +piecePosition.y].setBackground(Color.black);
+            //sets all the board arrays back to the original black so that the current piece's colors do not interfere with the collision testing
+            //does this by adding the x and y coordinants of the piceposition which is a refrece positoin and adding that to the x and y values of the shapes points
+            //and looking at those indexes in the boardarray
             BoardArray[p.x + piecePosition.x][p.y +piecePosition.y].setBorder(BorderFactory.createLineBorder(Color.gray));
+            //creates the line borders on the board tiles that the piece resides on so that if the piece moves left or right,
+            //it looks the same as all the other empty tiles
         }
         if(!collision(piecePosition.x,piecePosition.y+1, rotation)){
+        //checks to see if the proposed move down would result in a collision by calling the collision method and giving it the x and y values of the refrence positon
+        //plus the proposed move as well as the current rotation
             piecePosition.y++;
+            //adds one to the piece postion if there is no collision resulting in that move
             drawPiece();
+            //draw the piece
         } else{
             PinToBoard();
+            //if there is a collision then pin the piece to the board
         }
         
     }
     
     public void rotate(){
         for (Point p : tetrisisu.Shapes.TetrisShapes[currentPiece][rotation]){
+        //iterates through all the points in the current shape with an enhanced for loop
             BoardArray[p.x + piecePosition.x][p.y +piecePosition.y].setBackground(Color.black);
+            //sets all the board arrays back to the original black so that the current piece's colors do not interfere with the collision testing
+            //does this by adding the x and y coordinants of the piceposition which is a refrece positoin and adding that to the x and y values of the shapes points
+            //and looking at those indexes in the boardarray
             BoardArray[p.x + piecePosition.x][p.y +piecePosition.y].setBorder(BorderFactory.createLineBorder(Color.gray));
+            //creates the line borders on the board tiles that the piece resides on so that if the piece moves left or right,
+            //it looks the same as all the other empty tiles
         }
         int temprotation=0;
+        //declares the temprotation int and set the value at 0
         switch(rotation){
+        //creates a switch based on the current rotation
             case 0: 
+            //if rotation is 0 then:
                 temprotation =1;
+                //set temprotation to 1
                 break;
+                //break the case statement
             case 1:
+            //if rotation is 1 then:
                 temprotation = 2;
+                //set temprotation to 2
                 break;
+                //break the case statement
             case 2:
+            //if rotation is 2 then:
                 temprotation = 3;
+                //set temprotation to 3
                 break;
+                //break the case statement
             case 3:
+            //if rotation is 3 then:
                 temprotation = 0;
+                //set temprotation to 0
                 break;
+                //break the case statement
         }
         if(!collision(piecePosition.x,piecePosition.y,temprotation)){
-            if(rotation>2){
-                rotation = 0;
-            }else{
-                rotation++;
-            }
+        //checks to see if there would be a collision at the current coordinants with the new roation
+            rotation = temprotation;
+            //if there is no collision, then set rotation to equal temprotation
         }
         drawPiece();
+        //draws the piece
     }
     
     public void drawPiece(){
         for (Point p : tetrisisu.Shapes.TetrisShapes[currentPiece][rotation]){
+        //iterates through all the points in the current shape with an enhanced for loop
             BoardArray[p.x + piecePosition.x][p.y +piecePosition.y].setBackground(Shapes.ShapesColors[currentPiece]);
+            //colors all the boxes at the current peice's coordinants with the color at the index of the currentpiece
+            //does this by adding the x and y coordinants of the piceposition which is a refrece positoin and adding that to the x and y values of the shapes points
+            //and looking at those indexes in the boardarray
             BoardArray[p.x + piecePosition.x][p.y +piecePosition.y].setBorder(createRaisedBevelBorder());
+            //sets all the borders of the tiles that would currently be occupied by the piece with a beveled border
         }
     }
     
@@ -363,12 +448,12 @@ public class TetrisISU extends JFrame implements KeyListener{
     }
     
     public void PinToBoard(){
-        for (Point p : tetrisisu.Shapes.TetrisShapes[currentPiece][rotation]){
-            BoardArray[p.x + piecePosition.x][p.y +piecePosition.y].setBackground(Shapes.ShapesColors[currentPiece]);
-            BoardArray[p.x + piecePosition.x][p.y +piecePosition.y].setBorder(createRaisedBevelBorder());
-        }
+        drawPiece();
+        //calls the drawpiece method
         clearmultiple();
+        //calls the clearmultiple method to check if lines can be cleared
         newPiece();
+        //calls the newpiece method to create another piece
     }
     
     
@@ -379,39 +464,48 @@ public class TetrisISU extends JFrame implements KeyListener{
                 BoardArray[x][line].setBorder(BoardArray[x][line-1].getBorder());
             }
             line--;
+            //subtracts one from the line integer allowing for iteration through all the colomns
         }
         linesCompleted++;
+        //adds one to the number of lines cleared
         levelChecker();
+        //calls the level checker method
     }
     
     public void clearmultiple(){
         boolean gap;
-		int numClears = 0;
-		
-		for (int y = 0; y < 20; y++) {
-			gap = false;
-			for (int x = 0; x < 10; x++) {
-				if (BoardArray[x][y].getBackground().equals(Color.black)) {
-					gap = true;
-                                        break;
-				}
-			}
-			if (!gap) {
-                        //if there is no gap
-				clearsingle(y);
-                                //calls the clearsingle line method and passes the y coordinate of the line that is filled
-				numClears += 1;
-                                //adds one to the number of clears
-			}
-		}
-                score+= 200*Math.pow(numClears,2);
-                //adds 200 times, the number of clears that were preformed this method call, squared.
+        //initilizes a boolean called gap
+        int numClears = 0;
+        //sets a counter for how many lines were cleared this method call
+	for (int y = 0; y < 20; y++) {
+        //iterates through all 20 rows
+            gap = false;
+            //sets gap to false as we have to look for a gap, otherwise if the line is gap free, then gap is already set to false so no more work is nessecary
+            for (int x = 0; x < 10; x++) {
+                if (BoardArray[x][y].getBackground().equals(Color.black)) {
+                //looks for a black square which would mean that there is a gap
+                    gap = true;
+                    //if there is a gap then set the gap boolean to true
+                    break;
+                    //break the inner for loop
+                }
+            }
+            if (!gap) {
+                //if there is no gap then:
+                clearsingle(y);
+                //calls the clearsingle line method and passes the y coordinate of the line that is filled 
+                numClears += 1;
+                //adds one to the number of clears
+            }
+	}
+        score+= 200*Math.pow(numClears,2);
+        //adds 200 multiplied by, the number of clears that were preformed this method call, squared.
     }
     
     private void levelChecker(){
         if(linesCompleted>=(20-level)){
             //if the number of lines complete is greater than or equal to 20 minus the level
-            //this results in a uniqe difficulty ramp
+            //this results in a uniqe difficulty modifier
             linesCompleted = 0;
             //set lines completed to 0
             level++;
@@ -419,8 +513,8 @@ public class TetrisISU extends JFrame implements KeyListener{
             score += level*100;
             //adds 100 times the level to the current score
         }
-        if(level>29 && level<31){
-        //checks to see if the current level is between 29 and 31.
+        if(level==30){
+        //checks to see if the current level is 30 and if it is then:
             s1.stop();
             //stops the thread playing sound track 1
             s2.start();

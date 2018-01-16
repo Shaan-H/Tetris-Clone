@@ -16,7 +16,6 @@ import static tetrisisu.TetrisISU.gameRunning;
 public class soundTrack2 extends Thread{ //Refer to soundTrack1
     @Override 
     public void run(){
-        while(gameRunning){
             try{
                 File file = new File("TetrisMusic2.mp3");
                 FileInputStream fis = new FileInputStream(file);
@@ -28,6 +27,5 @@ public class soundTrack2 extends Thread{ //Refer to soundTrack1
                 } catch(JavaLayerException ex) {}
 
             } catch(IOException e){} 
-        }
     }
 }
