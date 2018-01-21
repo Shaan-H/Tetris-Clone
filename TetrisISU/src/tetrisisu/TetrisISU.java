@@ -38,6 +38,10 @@ public class TetrisISU extends JFrame implements KeyListener{
     //declares a jLabel that contains one of the controls
     private final JLabel Control4 = new JLabel("Drop Piece: Down Arrow");
     //declares a jLabel that contains one of the controls
+    private final JLabel warning = new JLabel("Notice: this game can only be ");
+    //creates a jLabel with a warning notice
+    private final JLabel warning2 = new JLabel("played properly on 1080p monitors");
+    //creates the jLabel with the second part of the warning
     public int score = 0;
     //makes an integer to store the score
     public JLabel ScoreDisplay = new JLabel("Score = " + score);
@@ -148,6 +152,23 @@ public class TetrisISU extends JFrame implements KeyListener{
         //centers the component on the sideboard
         SideBoard.add(GameTitle);
         //adds the title to the side board
+        
+        SideBoard.add(Box.createRigidArea(new Dimension(0,10)));
+        //adds a spacer to the side board to spread the elements out
+        
+        warning.setFont(new java.awt.Font("Tahoma", 0, 15));
+        //sets the font of the warning
+        warning.setAlignmentX(Component.CENTER_ALIGNMENT);
+        //centers the component on the sideboard
+        SideBoard.add(warning);
+        //adds the warning to the side board
+        
+        warning2.setFont(new java.awt.Font("Tahoma", 0, 15));
+        //sets the font of the warning
+        warning2.setAlignmentX(Component.CENTER_ALIGNMENT);
+        //centers the component on the sideboard
+        SideBoard.add(warning2);
+        //adds the warning to the side board
         
         SideBoard.add(Box.createRigidArea(new Dimension(0,50)));
         //adds a spacer to the side board to spread the elements out
@@ -525,8 +546,8 @@ public class TetrisISU extends JFrame implements KeyListener{
     }
     
     private void levelChecker(){
-        if(linesCompleted>=(20-level)){
-            //if the number of lines complete is greater than or equal to 20 minus the level
+        if(linesCompleted>=(5-level)){
+            //if the number of lines complete is greater than or equal to 5 minus the level
             //this results in a uniqe difficulty modifier
             linesCompleted = 0;
             //set lines completed to 0
